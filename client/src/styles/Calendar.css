@@ -1,0 +1,92 @@
+/* Base styles */
+.calendar-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background-color: #fff; /* Replace with theme.palette.background.paper */
+    border-radius: 4px; /* Replace with theme.shape.borderRadius */
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .day {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: transparent;
+    color: #000; /* Replace with theme.palette.text.primary */
+  }
+  
+  .day.selected {
+    background-color: #3f51b5; /* Replace with theme.palette.primary.main */
+    color: #fff; /* Replace with theme.palette.primary.contrastText */
+  }
+  
+  .day:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Replace with theme.palette.action.hover */
+  }
+  
+  .calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background-color: #e0e0e0; /* Replace with theme.palette.grey[200] */
+    padding: 8px; /* Replace with theme.spacing(1) */
+  }
+  
+  .navigation-button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dialog-content {
+    padding: 0;
+    width: 100%;
+    height: 500px;
+  }
+  
+  .dialog-inner {
+    width: 100%;
+    height: 100%; /* Ensure full height on mobile */
+  }
+  
+  .month-label {
+    grid-column: span 5;
+    text-align: center;
+  }
+  
+  .header-typography {
+    text-align: center;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .calendar-container {
+      grid-template-columns: repeat(7, 1fr);
+    }
+  
+    .day {
+      font-size: 0.75rem; /* Adjust font size for smaller screens */
+      padding: 8px; /* Ensure days are touch-friendly */
+    }
+  
+    .calendar-header {
+      padding: 4px; /* Less padding on smaller screens */
+    }
+  
+    .dialog-content {
+      height: 400px; /* Adjust dialog height for mobile */
+    }
+  
+    .dialog-inner {
+      height: 100%;
+    }
+  }
+  

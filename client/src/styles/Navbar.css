@@ -1,0 +1,86 @@
+/* Ensure the navbar is transparent on page load */
+.app-bar {
+  box-shadow: none;
+  background-color: transparent;
+  transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+
+.app-bar.transparent {
+  box-shadow: none;
+  background-color: transparent;
+  
+}
+
+.app-bar.scrolled {
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15),
+    4px 4px 12px -2.5px rgba(85, 166, 246, 0.15);
+    box-shadow: none;
+  background-color: transparent;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-radius: 999px;
+  max-height: 40px;
+  border: none;
+  backdrop-filter: none;
+}
+
+.toolbar.scrolled {
+  backdrop-filter: blur(24px);
+  border: 1px solid transparent;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 140px;
+  height: auto;
+  cursor: pointer;
+}
+
+.menu-items {
+  display: flex;
+}
+
+.menu-icon {
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.drawer-content {
+  min-width: 60vw;
+  padding: 16px;
+  background-color: #a65a5a;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .menu-items {
+    display: none;
+  }
+
+  .auth-buttons {
+    display: none;
+  }
+
+  .drawer-content {
+    min-width: 70vw;
+  }
+}
