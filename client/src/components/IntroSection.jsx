@@ -21,7 +21,7 @@ const IntroSection = () => {
         sx={{ 
           mt: -5,
           mb: 4,
-          color: 'rgba(124, 131, 204, 0.75)',
+          color: 'rgba(60, 57, 57, 0.841)',
           fontFamily: 'Inknut Antiqua' 
         }}
       >

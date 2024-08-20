@@ -70,7 +70,7 @@
   flex-direction: column;
 }
 
-/* Responsive styles */
+/* Responsive styling */
 @media (max-width: 600px) {
   .menu-items {
     display: none;

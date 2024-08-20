@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import '../styles/Navbar.css';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import logo from '../assets/logo.png';
+import '../styles/Navbar.css';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -46,98 +44,107 @@ const Navbar = () => {
     <div>
       <AppBar
         position="fixed"
-        className={`app-bar ${scrolled ? 'scrolled' : 'transparent'}`}
+        className={`app-bar ${scrolled ? 'scrolled' : 'transparent'}`} 
       >
-        <Container maxWidth="lg">
-          <Toolbar
-            variant="regular"
-            className={`toolbar ${scrolled ? 'scrolled' : ''}`}
+        <Toolbar
+          className="toolbar"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            px: 2,
+            height: 'auto',
+            flexDirection: { xs: 'row', md: 'row' },
+            width: '100%',
+            backgroundColor: 'transparent', 
+            transition: 'background-color 0.5s ease-in-out', 
+          }}
+        >
+          <Box
+            className="logo-container"
             sx={{
               display: 'flex',
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              px: 2,
-              height: 'auto',
-              flexDirection: { xs: 'column', md: 'row' },
+              justifyContent: { xs: 'center', md: 'flex-start' }, 
+              flexGrow: { xs: 1, md: 0 },
             }}
           >
-            <Box
-              className="logo-container"
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}
+            <MenuItem
+              sx={{ fontFamily: 'Inknut Antiqua', fontSize: { xs: '1.2rem', md: '1rem' }, color: 'inherit' }}
             >
-              <img
-                src={logo}
-                className="logo"
-                alt="logo"
-                style={{ width: '175px', height: 175 }}
-              />
-            </Box>
-            <Box
-              className="menu-items"
-              sx={{
-                display: { xs: 'none', md: 'flex' },
-                flexGrow: 1,
-                justifyContent: 'flex-end', 
-                gap: 2,
-              }}
+              Harmonia Oasis
+            </MenuItem>
+          </Box>
+
+          <Box
+            className="menu-items"
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              flexGrow: 1,
+              justifyContent: 'flex-end',
+              gap: 2,
+            }}
+          >
+            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('features')}>Attractions</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+          </Box>
+
+          <Box
+            className="auth-buttons"
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              gap: 2,
+            }}
+          >
+            <Button
+              color="primary"
+              variant="text"
+              size="small"
+              href="#"
+              target="_blank"
             >
-              <MenuItem sx={{fontFamily: 'Inknut Antiqua'}} onClick={() => scrollToSection('features')}>Attractions</MenuItem>
-              <MenuItem sx={{fontFamily: 'Inknut Antiqua'}} onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
-              <MenuItem sx={{fontFamily: 'Inknut Antiqua'}} onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
-              <MenuItem sx={{fontFamily: 'Inknut Antiqua'}} onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
-            </Box>
-            <Box
-              className="auth-buttons"
-              sx={{
-                display: { xs: 'none', md: 'flex' },
-                gap: 2,
-              }}
+              Sign in
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              href="#"
+              target="_blank"
             >
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                href="#"
-                target="_blank"
-              >
-                Sign in
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                href="#"
-                target="_blank"
-              >
-                Sign up
-              </Button>
-            </Box>
-            <Box className="menu-icon" sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                color="primary"
-                aria-label="menu"
-                onClick={toggleDrawer(true)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Drawer
-                anchor="right"
-                open={open}
-                onClose={toggleDrawer(false)}
-              >
-                <Box className="drawer-content">
-                  <MenuItem onClick={() => scrollToSection('features')}>Features</MenuItem>
-                  <MenuItem onClick={() => scrollToSection('highlights')}>Highlights</MenuItem>
-                  <MenuItem onClick={() => scrollToSection('pricing')}>Pricing</MenuItem>
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
-                </Box>
-              </Drawer>
-            </Box>
-          </Toolbar>
-        </Container>
+              Sign up
+            </Button>
+          </Box>
+
+          <Box
+            className="menu-icon"
+            sx={{
+              display: { xs: 'flex', md: 'none' },
+              justifyContent: 'flex-end',
+            }}
+          >
+            <IconButton
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Drawer
+              anchor="right"
+              open={open}
+              onClose={toggleDrawer(false)}
+            >
+              <Box className="drawer-content">
+                <MenuItem onClick={() => scrollToSection('features')}>Attractions</MenuItem>
+                <MenuItem onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
+                <MenuItem onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
+                <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+              </Box>
+            </Drawer>
+          </Box>
+        </Toolbar>
       </AppBar>
     </div>
   );
