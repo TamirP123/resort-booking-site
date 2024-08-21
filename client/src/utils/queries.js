@@ -35,6 +35,8 @@ export const QUERY_ROOMS = gql`
         name
         description
         image
+        type
+        cost
       }
   }
 `;

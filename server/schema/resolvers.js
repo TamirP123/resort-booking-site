@@ -42,8 +42,8 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addRoom: async (parent, { name, description, image }) => {
-      return Room.create({ name, description, image });
+    addRoom: async (parent, { name, description, image, type, cost }) => {
+      return Room.create({ name, description, image, type, cost });
     },
   },
 };

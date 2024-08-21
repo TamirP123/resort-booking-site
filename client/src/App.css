@@ -15,4 +15,7 @@ body {
     font-style: normal;
 }
 
-
+.room-link {
+  text-decoration: none;
+  color: grey;
+}

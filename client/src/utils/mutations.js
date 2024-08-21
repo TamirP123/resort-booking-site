@@ -33,11 +33,13 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_ROOM = gql`
-  mutation addRoom($name: String!, $description: String!, $image: String!) {
-    addRoom(name: $name, description: $description, image: $image) {
+  mutation addRoom($name: String!, $description: String!, $image: String!, $type: String!, $cost: Int!) {
+    addRoom(name: $name, description: $description, image: $image, type: $type, cost: $cost) {
       name
       description
       image
+      type
+      cost
     }
   }
 `;

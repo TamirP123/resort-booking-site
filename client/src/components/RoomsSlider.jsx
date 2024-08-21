@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { Box, Typography, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -14,7 +15,7 @@ const RoomsSlider = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   const rooms = data.rooms;
-  const isMobile = window.innerWidth <= 768; //
+  const isMobile = window.innerWidth <= 768;
 
   const nextSlide = () => {
     if (currentIndex < rooms.length - (isMobile ? 1 : 3)) {
@@ -26,6 +27,13 @@ const RoomsSlider = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
+  };
+
+  // Assign unique routes for each room since I wanted to style each page individually.
+  const roomRoutes = {
+    "King Luxury Suite": "/rooms/king-room",
+    "Room 2": "/room-two",
+    "Room 3": "/room-three"
   };
 
   return (
@@ -44,9 +52,12 @@ const RoomsSlider = () => {
         >
           {rooms.map((room) => (
             <Box key={room._id} className="slider-card">
-              <img src={room.image} alt={room.name} className="slider-image" />
-              <Typography variant="h6" sx={{ mt: 2 }}>{room.name}</Typography>
-              <Typography variant="body1">{room.description}</Typography>
+              <Typography variant="h6" sx={{ mb: 2 }}>${room.cost}/Night</Typography>
+              <Link to={roomRoutes[room.name] || `/room-default`} className="room-link">
+                <img src={room.image} alt={room.name} className="slider-image" />
+                <Typography variant="h6" sx={{ mt: 2 }}>{room.name}</Typography>
+                <Typography variant="body1">{room.description}</Typography>
+              </Link>
             </Box>
           ))}
         </Box>

@@ -11,6 +11,8 @@ type Room {
     name: String
     description: String
     image: String
+    type: String
+    cost: Int
   }
 
 type Query {
@@ -28,7 +30,7 @@ type Auth {
 type Mutation {
   addUser(username: String!, email: String!, password: String!): Auth
   login(email: String!, password: String!): Auth
-  addRoom(name: String!, description: String!, image: String!): Room
+  addRoom(name: String!, description: String!, image: String!, type: String!, cost: Int!): Room
 }
 `;
 

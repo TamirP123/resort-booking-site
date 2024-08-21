@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import App from './App.jsx';
 import Homepage from './pages/Homepage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
+import KingRoom from './pages/KingRoom.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Homepage />
+      },
+      {
+        path: 'rooms/king-room',
+        element: <KingRoom />
       },
     ]
   }
