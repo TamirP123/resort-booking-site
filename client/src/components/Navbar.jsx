@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -71,7 +72,9 @@ const Navbar = () => {
             <MenuItem
               sx={{ fontFamily: 'Inknut Antiqua', fontSize: { xs: '1.2rem', md: '1rem' }, color: 'inherit' }}
             >
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
               Harmonia Oasis
+            </Link>
             </MenuItem>
           </Box>
 

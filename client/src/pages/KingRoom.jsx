@@ -1,44 +1,22 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import Modal from '@mui/material/Modal';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 import Navbar from "../components/Navbar";
+import KingHero from "../components/KingHero";
 import { QUERY_ROOMS } from "../utils/queries";
-
-import WifiIcon from '@mui/icons-material/Wifi';
-import KingBedIcon from '@mui/icons-material/KingBed';
-// import NoSmokingIcon from '@mui/icons-material/NoSmoking';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import KitchenIcon from '@mui/icons-material/Kitchen';
-import TvIcon from '@mui/icons-material/Tv';
-
-const modalStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
+import Carousel from "react-material-ui-carousel";
+import KingBedIcon from "@mui/icons-material/KingBed";
+import PoolIcon from "@mui/icons-material/Pool";
+import KitchenIcon from "@mui/icons-material/Kitchen";
 
 const KingRoom = () => {
   const { loading, data } = useQuery(QUERY_ROOMS);
   const rooms = data?.rooms || [];
-  const [showReceipt, setShowReceipt] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [currentImage, setCurrentImage] = useState(0);
 
   // Filter to find king room
-  const kingroom = rooms.find(room => room.type === 'King');
-
-  const handleBookClick = () => {
-    setShowReceipt(true);
-  };
+  const kingroom = rooms.find((room) => room.type === "King");
 
   if (loading) {
     return <div>Loading...</div>;
@@ -48,148 +26,83 @@ const KingRoom = () => {
     return <div>No King Room available</div>;
   }
 
-  const images = [kingroom.image, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCBgw6S52f_Cz0wjwr7Wg2ebttBbUsdCpdi94FyckTvB0kQZlG17Keun-ILYiOzLDUZMs&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2UW5rWLWi209xUUEAXTrecNuSn09-YV7csbgzgnRrFLSdYJI3RtHDJyqmd25_LQFGib8&usqp=CAU"];
+  const images = [
+    kingroom.image,
+    "https://img.freepik.com/premium-photo/light-airy-coastal-kitchen-with-woven-pendant-lights_1081806-901.jpg",
+    "https://img.freepik.com/free-photo/tropical-paradise-poolside-resort_1268-31144.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1719187200&semt=ais_user",
+    "https://img.freepik.com/free-photo/hotel-pool-with-mosaictiled-bottom-swimup-bar-serving-refreshing-beverages_1268-31141.jpg",
+  ];
 
-  const handleOpenModal = (index) => {
-    setCurrentImage(index);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleNextImage = () => {
-    setCurrentImage((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const handlePrevImage = () => {
-    setCurrentImage((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
+  const carouselWidth = "900px"; 
+  const carouselHeight = "800px"; 
 
   return (
     <Box>
       <Navbar />
-      <Grid container spacing={4} sx={{ p: 4, mt: 10 }}>
-        <Grid item xs={12} md={8}>
-          <Card>
-            <CardContent>
-              <Typography variant="h4" gutterBottom sx={{ textAlign: 'left' }}>
-                {kingroom.name}
-              </Typography>
+      <KingHero />
 
-              <CardMedia
-                component="img"
-                image={kingroom.image}
-                alt={kingroom.name}
-                sx={{ cursor: 'pointer', marginBottom: 2 }}
-                onClick={() => handleOpenModal(0)}
+      <Box sx={{ mt: 5, px: 3 }}>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} sm={4} textAlign="center">
+            <KingBedIcon sx={{ fontSize: 60, color: "grey" }} />
+            <Typography variant="h5" sx={{ mt: 2 }}>
+              King Bed
+            </Typography>
+            <Typography variant="body2">
+              Experience the ultimate comfort with our luxurious king-sized bed.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={4} textAlign="center">
+            <PoolIcon sx={{ fontSize: 60, color: "grey" }} />
+            <Typography variant="h5" sx={{ mt: 2 }}>
+              Pool Access
+            </Typography>
+            <Typography variant="body2">
+              Enjoy a refreshing swim in our exclusive pool.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={4} textAlign="center">
+            <KitchenIcon sx={{ fontSize: 60, color: "grey" }} />
+            <Typography variant="h5" sx={{ mt: 2 }}>
+              Kitchenette
+            </Typography>
+            <Typography variant="body2">
+              Cook your favorite meals in our modern kitchen.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box sx={{ mt: 5, px: 3, textAlign: "center" }}>
+        <Carousel
+          indicators
+          navButtonsAlwaysVisible={false} 
+          animation="slide"
+          sx={{
+            maxWidth: carouselWidth,
+            height: carouselHeight, 
+            mx: "auto", 
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        >
+          {images.map((image, index) => (
+            <Box key={index} sx={{ width: "900px", height: "700px" }}>
+              <img
+                src={image}
+                alt={`Room ${index}`}
+                style={{
+                  width: "900px",
+                  height: "700px",
+                  objectFit: "cover",
+                }}
               />
-
-              <Grid container spacing={1}>
-                {images.slice(1).map((img, index) => (
-                  <Grid item xs={4} key={index}>
-                    <CardMedia
-                      component="img"
-                      image={img}
-                      alt={`small-image-${index}`}
-                      onClick={() => handleOpenModal(index + 1)}
-                      sx={{ cursor: 'pointer' }}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-
-              <Button variant="contained" color="primary" onClick={handleBookClick} sx={{ mt: 2 }}>
-                Book - ${kingroom.cost}
-              </Button>
-
-              <Tabs sx={{ mt: 4 }} centered>
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <WifiIcon color="primary" sx={{ marginRight: 1 }} /> Wifi
-                    </Box>
-                  }
-                />
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <KingBedIcon color="primary" sx={{ marginRight: 1 }} /> King Bed
-                    </Box>
-                  }
-                />
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center">
-                       No Smoking
-                    </Box>
-                  }
-                />
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <LocalParkingIcon color="primary" sx={{ marginRight: 1 }} /> Free Parking
-                    </Box>
-                  }
-                />
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <KitchenIcon color="primary" sx={{ marginRight: 1 }} /> Kitchen
-                    </Box>
-                  }
-                />
-                <Tab
-                  label={
-                    <Box display="flex" alignItems="center">
-                      <TvIcon color="primary" sx={{ marginRight: 1 }} /> TV
-                    </Box>
-                  }
-                />
-              </Tabs>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Receipt Details</Typography>
-              {showReceipt ? (
-                <Box mt={2}>
-                  <Typography variant="body1">Room: {kingroom.name}</Typography>
-                  <Typography variant="body1">Cost: ${kingroom.cost}</Typography>
-                </Box>
-              ) : (
-                <Typography variant="body2">Click "Book" to see receipt details.</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-
-      <Modal open={openModal} onClose={handleCloseModal} sx={modalStyle}>
-        <Box sx={{ position: 'relative', width: '80%', height: '80%' }}>
-          <img
-            src={images[currentImage]}
-            alt={`Zoomed-${currentImage}`}
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-          />
-          <Button
-            onClick={handlePrevImage}
-            sx={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }}
-          >
-            &#8592;
-          </Button>
-          <Button
-            onClick={handleNextImage}
-            sx={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
-          >
-            &#8594;
-          </Button>
-        </Box>
-      </Modal>
+            </Box>
+          ))}
+        </Carousel>
+      </Box>
     </Box>
   );
 };

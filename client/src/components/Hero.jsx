@@ -66,61 +66,11 @@ const Hero = () => {
             width: '100%',
             maxWidth: 800, 
             mx: 'auto',
-            mb: 18
+            mb: 20
           }}
         >
-          <Box
-            sx={{
-              width: { xs: '100%', sm: '36%', md:'25%' },
-              height: 55,
-              color: 'gray',
-              backgroundColor: 'white',
-              borderRadius: '4px',
-              padding: 1,
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-              boxShadow: 1,
-              mb: { xs: 6, sm: 0}, 
-            }}
-          >
-            <Calendar
-              selectedStartDate={arrivalDate}
-              selectedEndDate={departureDate}
-              onSelectStartDate={setArrivalDate}
-              onSelectEndDate={setDepartureDate}
-            />
-          </Box>
-          <TextField
-            label="Guests"
-            type="number"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <PersonIcon />
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              width: { xs: '100%', sm: 200 },
-              backgroundColor: 'white',
-              borderRadius: '4px',
-              mb: { xs: 2, sm: 0, }, 
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<SearchIcon />}
-            sx={{
-              borderRadius: '20px', 
-              mb: { xs: 2, sm: 0 }, 
-              width: { xs: '100%', sm: 'auto' }, 
-            }}
-          >
-            Search
-          </Button>
+         
+          
         </Box>
       </Box>
     </Box>

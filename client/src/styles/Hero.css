@@ -6,6 +6,14 @@
   position: relative;
 }
 
+#kinghero {
+  background-image: url('https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
 .hero-overlay {
   position: absolute;
   top: 0;

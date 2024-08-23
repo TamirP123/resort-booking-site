@@ -7,6 +7,7 @@ import App from './App.jsx';
 import Homepage from './pages/Homepage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import KingRoom from './pages/KingRoom.jsx';
+import Transaction from './pages/Transaction.jsx';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: 'rooms/king-room',
         element: <KingRoom />
+      },
+      {
+        path: 'rooms/transaction',
+        element: <Transaction />
       },
     ]
   }
