@@ -8,6 +8,8 @@ import Homepage from './pages/Homepage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import KingRoom from './pages/KingRoom.jsx';
 import Transaction from './pages/Transaction.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import SignupPage from './pages/SignupPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +23,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Homepage />
+        element: <LoginPage />
+      },
+      {
+        path: 'signup',
+        element: <SignupPage />
       },
       {
         path: 'rooms/king-room',

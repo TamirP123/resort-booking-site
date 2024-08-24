@@ -8,6 +8,7 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import Auth from "../utils/auth";
 import '../styles/Navbar.css';
 
 const Navbar = () => {
@@ -41,6 +42,11 @@ const Navbar = () => {
     }
   };
 
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+};
+
   return (
     <div>
       <AppBar
@@ -72,9 +78,9 @@ const Navbar = () => {
             <MenuItem
               sx={{ fontFamily: 'Inknut Antiqua', fontSize: { xs: '1.2rem', md: '1rem' }, color: 'inherit' }}
             >
-            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-              Harmonia Oasis
-            </Link>
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                Harmonia Oasis
+              </Link>
             </MenuItem>
           </Box>
 
@@ -91,6 +97,13 @@ const Navbar = () => {
             <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
             <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
             <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+            {Auth.loggedIn() && (
+              <>
+                <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }}>
+                  <Link to="/bookings" style={{ textDecoration: "none", color: "inherit" }}>Check Bookings</Link>
+                </MenuItem>
+              </>
+            )}
           </Box>
 
           <Box
@@ -100,24 +113,26 @@ const Navbar = () => {
               gap: 2,
             }}
           >
-            <Button
-              color="primary"
-              variant="text"
-              size="small"
-              href="#"
-              target="_blank"
-            >
-              Sign in
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              href="#"
-              target="_blank"
-            >
-              Sign up
-            </Button>
+            {Auth.loggedIn() ? (
+              <Button
+                color="primary"
+                variant="contained"
+                size="small"
+                onClick={logout}
+              >
+                Log out
+              </Button>
+            ) : (
+              <Link to="/login" style={{ textDecoration: "none", color: "white" }}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                >
+                  Sign in
+                </Button>
+              </Link>
+            )}
           </Box>
 
           <Box
@@ -144,6 +159,16 @@ const Navbar = () => {
                 <MenuItem onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
                 <MenuItem onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
                 <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                {Auth.loggedIn() && (
+                  <>
+                    <MenuItem onClick={() => setOpen(false)}>
+                      <Link to="/bookings" style={{ textDecoration: "none", color: "inherit" }}>
+                        Check Bookings
+                      </Link>
+                    </MenuItem>
+                    <MenuItem onClick={logout}>Log out</MenuItem>
+                  </>
+                )}
               </Box>
             </Drawer>
           </Box>
