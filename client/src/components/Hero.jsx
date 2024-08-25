@@ -1,27 +1,60 @@
 import React, { useState } from 'react';
+import { useQuery } from "@apollo/client";
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import PersonIcon from '@mui/icons-material/Person';
-import SearchIcon from '@mui/icons-material/Search';
-import Calendar from '../components/Calendar'; 
 import Rating from '@mui/material/Rating'; 
-import '../styles/Hero.css';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import '../styles/Hero.css'; 
+import HeroVideo from '../assets/Herovideo.mp4'; // Import your video
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { QUERY_ROOMS } from "../utils/queries";
+import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const Hero = () => {
-  const [arrivalDate, setArrivalDate] = useState(null);
-  const [departureDate, setDepartureDate] = useState(null);
+  const [arrivalDate, setArrivalDate] = React.useState(null);
+  const [departureDate, setDepartureDate] = React.useState(null);
+  const navigate = useNavigate();
+
+  const currentDate = dayjs();
+
+  const { loading, data } = useQuery(QUERY_ROOMS);
+  const rooms = data?.rooms || [];
+
+  // Filter to find king room
+  const kingRoom = rooms.find((room) => room.type === "King");
+
+  // Check if both dates are selected
+  const isBookNowEnabled = arrivalDate && departureDate;
+
+  const handleBookNow = () => {
+    if (isBookNowEnabled) {
+      // Calculate the number of days between arrival and departure
+      const numDays = departureDate.diff(arrivalDate, 'day');
+      const totalCost = numDays * kingRoom.cost;
+
+      navigate('/rooms/transaction', {
+        state: {
+          arrivalDate: arrivalDate.format('MM/DD/YYYY'),
+          departureDate: departureDate.format('MM/DD/YYYY'),
+          totalCost,
+          roomType: 'King Luxury Suite',
+        },
+      });
+    }
+  };
 
   return (
     <Box
       id="hero"
       sx={{
-        height: '75vh',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center', 
+        justifyContent: 'flex-start', 
         alignItems: 'center', 
         position: 'relative',
         textAlign: 'center',
@@ -29,32 +62,81 @@ const Hero = () => {
         overflow: 'hidden', 
       }}
     >
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: -1, 
+        }}
+      >
+        <source src={HeroVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
       <Box className="hero-overlay" />
-      <Box className="hero-content" sx={{ position: 'absolute', bottom: 0, width: '100%', px: 2 }}>
-        <Box
-          sx={{
-            mb: 3, 
+
+      {/* Hero Content */}
+      <Box 
+        className="hero-content" 
+        sx={{ 
+          position: 'relative', 
+          width: '100%', 
+          px: 2, 
+          mt: 10, 
+        }}
+      >
+        {/* Logo at the top */}
+        <Typography 
+          variant="h3" 
+          component="h1" 
+          sx={{ 
+            fontSize: { xs: '2rem', md: '3rem' }, 
+            fontFamily: 'Eagle Lake', 
+            mt: 3, 
             textAlign: 'center',
+            background: 'linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);', // Gold gradient
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
           }}
         >
-          <Typography variant="h2" component="h1" sx={{ fontSize: { xs: '2rem', md: '3rem' }, fontFamily: 'Inknut Antiqua' }}>
-            Harmonia Oasis Resorts
-          </Typography>
-          <Typography variant="h5" component="p" sx={{ fontSize: { xs: '1rem', md: '1.5rem' }, fontFamily: 'Inknut Antiqua', mt: 1 }}>
+          Harmonia Oasis Resorts
+        </Typography>
+
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <Typography 
+            variant="h5" 
+            component="p" 
+            sx={{ 
+              fontSize: { xs: '1.2rem', md: '1.8rem' }, 
+              fontFamily: 'Eagle Lake', 
+              mt: 2, 
+            }}
+          >
             Discover Your Perfect Escape.
           </Typography>
-          <Box sx={{ mt: 2 }}>
+          {/* <Box sx={{ mt: 17 }}>
             <Rating
               name="read-only"
               value={4.5}
               readOnly
               precision={0.5}
               sx={{
-                fontSize: { xs: '2rem', sm: '2.5rem' }, 
+                fontSize: { xs: '2rem', sm: '3.5rem' }, 
               }}
             />
-          </Box>
+          </Box> */}
         </Box>
+
         <Box
           component="form"
           sx={{
@@ -62,15 +144,58 @@ const Hero = () => {
             gap: 2,
             alignItems: 'center',
             justifyContent: 'center',
-            flexDirection: { xs: 'column', sm: 'row' }, 
+            flexDirection: { xs: 'column', sm: 'row' },
             width: '100%',
-            maxWidth: 800, 
+            maxWidth: 800,
             mx: 'auto',
-            mb: 20
+            mt: 43, 
+            px: 4,
           }}
         >
-         
-          
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Arrival Date"
+              value={arrivalDate}
+              onChange={(newValue) => setArrivalDate(newValue)}
+              minDate={currentDate}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  className="custom-textfield"
+                />
+              )}
+            />
+            <DatePicker
+              label="Departure Date"
+              value={departureDate}
+              onChange={(newValue) => setDepartureDate(newValue)}
+              minDate={arrivalDate || currentDate}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  className="custom-textfield"
+                />
+              )}
+            />
+          </LocalizationProvider>
+
+          <Button
+            variant="contained"
+            onClick={handleBookNow}
+            disabled={!isBookNowEnabled}
+            sx={{
+              backgroundColor: isBookNowEnabled ? 'primary' : 'grey',
+              color: '#fff',
+              padding: '10px 20px',
+              borderRadius: '25px',
+              '&:hover': {
+                backgroundColor: isBookNowEnabled ? 'darkblue' : 'grey',
+              },
+              mt: { xs: 2, sm: 0 },
+            }}
+          >
+            View Rates
+          </Button>
         </Box>
       </Box>
     </Box>

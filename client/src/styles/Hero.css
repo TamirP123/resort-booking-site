@@ -1,19 +1,3 @@
-#hero {
-  background-image: url('https://www.redtag.ca/content/dam/redtag/hotel-resorts/jamaica/ocho-rios/moon-palace-jamaica/1117-moon-palace-jamaica-grande-69-p.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-}
-
-#kinghero {
-  background-image: url('https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=600');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-}
-
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -29,6 +13,29 @@
   position: relative;
   z-index: 2;
   color: #fff;
-  padding: 0 16px; /* Adjust padding for responsiveness */
+  padding: 0 16px; 
+}
+
+
+
+/* Hero.css */
+.MuiTextField-root .MuiInputBase-root {
+  background-color: rgba(0, 0, 0, 0.448) !important; /* Background color */
+}
+
+.MuiTextField-root .MuiInputBase-input {
+  color: white !important; /* Text color */
+}
+
+.MuiTextField-root .MuiOutlinedInput-notchedOutline {
+  border-color: white !important; /* Border color */
+}
+
+.MuiTextField-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: white !important; /* Border color on focus */
+}
+
+.MuiInputLabel-root {
+  color: white !important; /* Label color */
 }
 

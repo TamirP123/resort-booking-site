@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Auth from "../utils/auth";
+import logo from "../assets/logo.png";
 import '../styles/Navbar.css';
 
 const Navbar = () => {
@@ -28,118 +29,126 @@ const Navbar = () => {
     setOpen(newOpen);
   };
 
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
-      setOpen(false);
-    }
-  };
-
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
-};
+  };
 
   return (
     <div>
       <AppBar
         position="fixed"
-        className={`app-bar ${scrolled ? 'scrolled' : 'transparent'}`} 
+        className={`app-bar ${scrolled ? 'scrolled' : 'transparent'}`}
       >
         <Toolbar
-          className="toolbar"
+          className={`toolbar ${scrolled ? 'scrolled' : 'transparent'}`}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             px: 2,
             height: 'auto',
-            flexDirection: { xs: 'row', md: 'row' },
             width: '100%',
-            backgroundColor: 'transparent', 
-            transition: 'background-color 0.5s ease-in-out', 
           }}
         >
+          {/* Left side */}
+          <Box
+            className="left-side"
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              alignItems: 'center',
+              gap: 2,
+            }}
+          >
+            <Button
+              component={Link}
+              to="/reservations"
+              className="reservationsbtn"
+              sx={{
+                fontWeight: 'bold',
+                color: scrolled ? 'black' : 'white',
+                fontFamily: 'Eagle Lake'
+              }}
+            >
+              Reservations
+            </Button>
+          </Box>
+
+          {/* Center*/}
           <Box
             className="logo-container"
             sx={{
               display: 'flex',
-              justifyContent: { xs: 'center', md: 'flex-start' }, 
-              flexGrow: { xs: 1, md: 0 },
-            }}
-          >
-            <MenuItem
-              sx={{ fontFamily: 'Inknut Antiqua', fontSize: { xs: '1.2rem', md: '1rem' }, color: 'inherit' }}
-            >
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                Harmonia Oasis
-              </Link>
-            </MenuItem>
-          </Box>
-
-          <Box
-            className="menu-items"
-            sx={{
-              display: { xs: 'none', md: 'flex' },
+              justifyContent: 'center',
               flexGrow: 1,
-              justifyContent: 'flex-end',
-              gap: 2,
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
             }}
           >
-            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('features')}>Attractions</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }} onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
-            {Auth.loggedIn() && (
-              <>
-                <MenuItem sx={{ fontFamily: 'Inknut Antiqua', color: 'inherit' }}>
-                  <Link to="/bookings" style={{ textDecoration: "none", color: "inherit" }}>Check Bookings</Link>
-                </MenuItem>
-              </>
+            {!scrolled ? (
+              <Link to="/">
+                <img
+                  src={logo}
+                  alt="Harmonia Oasis"
+                  className={`logo ${scrolled ? 'hide' : ''}`}
+                />
+              </Link>
+            ) : (
+              <MenuItem
+                component={Link}
+                to="/"
+                sx={{
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  color: 'black',
+                  fontFamily: 'Eagle Lake',
+                }}
+              >
+                Home
+              </MenuItem>
             )}
           </Box>
 
+          {/* Right side */}
           <Box
-            className="auth-buttons"
+            className="right-side"
             sx={{
               display: { xs: 'none', md: 'flex' },
+              alignItems: 'center',
               gap: 2,
             }}
           >
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled ? 'black' : 'inherit' }} component={Link} to="/rooms">Rooms</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled ? 'black' : 'inherit' }} component={Link} to="/contact">Contact us</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled ? 'black' : 'inherit' }} component={Link} to="/attractions">Attractions</MenuItem>
             {Auth.loggedIn() ? (
               <Button
-                color="primary"
                 variant="contained"
+                color="primary"
                 size="small"
                 onClick={logout}
               >
                 Log out
               </Button>
             ) : (
-              <Link to="/login" style={{ textDecoration: "none", color: "white" }}>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  size="small"
-                >
-                  Sign in
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                component={Link}
+                to="/login"
+              >
+                Sign in
+              </Button>
             )}
           </Box>
 
+          {/* Mobile Menu Icon */}
           <Box
             className="menu-icon"
             sx={{
               display: { xs: 'flex', md: 'none' },
-              justifyContent: 'flex-end',
             }}
           >
             <IconButton
@@ -155,17 +164,12 @@ const Navbar = () => {
               onClose={toggleDrawer(false)}
             >
               <Box className="drawer-content">
-                <MenuItem onClick={() => scrollToSection('features')}>Attractions</MenuItem>
-                <MenuItem onClick={() => scrollToSection('highlights')}>Rooms</MenuItem>
-                <MenuItem onClick={() => scrollToSection('pricing')}>Contact us</MenuItem>
-                <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                <MenuItem component={Link} to="/rooms">Rooms</MenuItem>
+                <MenuItem component={Link} to="/contact">Contact us</MenuItem>
+                <MenuItem component={Link} to="/attractions">Attractions</MenuItem>
                 {Auth.loggedIn() && (
                   <>
-                    <MenuItem onClick={() => setOpen(false)}>
-                      <Link to="/bookings" style={{ textDecoration: "none", color: "inherit" }}>
-                        Check Bookings
-                      </Link>
-                    </MenuItem>
+                    <MenuItem component={Link} to="/bookings">Check Bookings</MenuItem>
                     <MenuItem onClick={logout}>Log out</MenuItem>
                   </>
                 )}

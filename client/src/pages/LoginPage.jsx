@@ -92,7 +92,7 @@ const LoginPage = () => {
                    
                     <Box
                         sx={{
-                            backgroundColor: 'rgba(239, 206, 13, 0.674)', // Gold part
+                            backgroundColor: 'rgba(239, 206, 13, 0.620)', // Gold part
                             width: '30%',
                             padding: 3,
                             display: 'flex',

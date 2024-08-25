@@ -13,7 +13,7 @@ const IntroSection = () => {
           width: '175px', 
           display: 'block', 
           margin: '0 auto',
-          paddingBottom: '0',
+          paddingBottom: '25px',
         }} 
       />
       <Typography 
