@@ -19,3 +19,15 @@ body {
   text-decoration: none;
   color: grey;
 }
+
+/* Apply box-sizing to all elements */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent horizontal overflow */
+html, body {
+  overflow-x: hidden;
+}

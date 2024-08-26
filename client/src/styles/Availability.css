@@ -1,0 +1,65 @@
+#availability .MuiTextField-root .MuiInputBase-root {
+    background-color: #ffff !important; 
+  }
+  
+  #availability .MuiTextField-root .MuiInputBase-input {
+    color: black !important; 
+  }
+  
+  #availability .MuiTextField-root .MuiOutlinedInput-notchedOutline {
+    border-color: blue !important; 
+  }
+  
+  #availability .MuiTextField-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: white !important; 
+  }
+  
+  #availability .MuiInputLabel-root {
+    color: black !important; 
+  }
+
+  .amenitybox {
+    --color: rgb(27, 154, 233);
+    font-family: inherit;
+    
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border: 2px solid var(--color);
+    transition: color 0.5s;
+    z-index: 1;
+    font-size: 17px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: var(--color);
+  }
+  
+  .amenitybox:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: var(--color);
+    height: 150px;
+    width: 200px;
+    border-radius: 50%;
+  }
+  
+  .amenitybox:hover {
+    color: #fff;
+  }
+  
+  .amenitybox:before {
+    top: 100%;
+    left: 100%;
+    transition: all 0.7s;
+  }
+  
+  .amenitybox:hover:before {
+    top: -30px;
+    left: -30px;
+  }
+  
+  .amenitybox:active:before {
+    background: #3a79e5;
+    transition: background 0s;
+  }

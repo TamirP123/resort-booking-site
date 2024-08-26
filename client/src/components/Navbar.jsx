@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -15,7 +15,8 @@ import '../styles/Navbar.css';
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const location = useLocation();
+  
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -34,14 +35,17 @@ const Navbar = () => {
     Auth.logout();
   };
 
+  // Determine if the current route is the Availability page
+  const isAvailabilityPage = location.pathname === '/availability';
+
   return (
     <div>
       <AppBar
         position="fixed"
-        className={`app-bar ${scrolled ? 'scrolled' : 'transparent'}`}
+        className={`app-bar ${scrolled || isAvailabilityPage ? 'scrolled' : 'transparent'} ${isAvailabilityPage ? 'availability-page' : ''}`}
       >
         <Toolbar
-          className={`toolbar ${scrolled ? 'scrolled' : 'transparent'}`}
+          className={`toolbar ${scrolled || isAvailabilityPage ? 'scrolled' : 'transparent'}`}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -86,7 +90,7 @@ const Navbar = () => {
               transform: 'translateX(-50%)',
             }}
           >
-            {!scrolled ? (
+            {!scrolled && !isAvailabilityPage ? (
               <Link to="/">
                 <img
                   src={logo}
@@ -119,9 +123,9 @@ const Navbar = () => {
               gap: 2,
             }}
           >
-            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled ? 'black' : 'inherit' }} component={Link} to="/rooms">Rooms</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled ? 'black' : 'inherit' }} component={Link} to="/contact">Contact us</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled ? 'black' : 'inherit' }} component={Link} to="/attractions">Attractions</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage ? 'black' : 'inherit' }} component={Link} to="/rooms">Rooms</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage ? 'black' : 'inherit' }} component={Link} to="/contact">Contact us</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage ? 'black' : 'inherit' }} component={Link} to="/attractions">Attractions</MenuItem>
             {Auth.loggedIn() ? (
               <Button
                 variant="contained"

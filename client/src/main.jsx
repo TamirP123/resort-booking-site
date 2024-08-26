@@ -10,6 +10,7 @@ import KingRoom from './pages/KingRoom.jsx';
 import Transaction from './pages/Transaction.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
+import Availability from './pages/Availability.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,11 +31,15 @@ const router = createBrowserRouter([
         element: <SignupPage />
       },
       {
+        path: 'availability',
+        element: <Availability />
+      },
+      {
         path: 'rooms/king-room',
         element: <KingRoom />
       },
       {
-        path: 'rooms/transaction',
+        path: 'transaction',
         element: <Transaction />
       },
     ]

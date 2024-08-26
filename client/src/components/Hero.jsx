@@ -1,47 +1,32 @@
 import React, { useState } from 'react';
 import { useQuery } from "@apollo/client";
 import Typography from '@mui/material/Typography';
-import Rating from '@mui/material/Rating'; 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import '../styles/Hero.css'; 
-import HeroVideo from '../assets/Herovideo.mp4'; // Import your video
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { QUERY_ROOMS } from "../utils/queries";
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import '../styles/Hero.css'; 
+import HeroVideo from '../assets/Herovideo.mp4'; // Import your video
 
 const Hero = () => {
   const [arrivalDate, setArrivalDate] = React.useState(null);
   const [departureDate, setDepartureDate] = React.useState(null);
   const navigate = useNavigate();
-
   const currentDate = dayjs();
-
-  const { loading, data } = useQuery(QUERY_ROOMS);
-  const rooms = data?.rooms || [];
-
-  // Filter to find king room
-  const kingRoom = rooms.find((room) => room.type === "King");
 
   // Check if both dates are selected
   const isBookNowEnabled = arrivalDate && departureDate;
 
-  const handleBookNow = () => {
+  const handleAvailability = () => {
     if (isBookNowEnabled) {
-      // Calculate the number of days between arrival and departure
-      const numDays = departureDate.diff(arrivalDate, 'day');
-      const totalCost = numDays * kingRoom.cost;
-
-      navigate('/rooms/transaction', {
+      navigate('/availability', {
         state: {
           arrivalDate: arrivalDate.format('MM/DD/YYYY'),
           departureDate: departureDate.format('MM/DD/YYYY'),
-          totalCost,
-          roomType: 'King Luxury Suite',
         },
       });
     }
@@ -124,17 +109,6 @@ const Hero = () => {
           >
             Discover Your Perfect Escape.
           </Typography>
-          {/* <Box sx={{ mt: 17 }}>
-            <Rating
-              name="read-only"
-              value={4.5}
-              readOnly
-              precision={0.5}
-              sx={{
-                fontSize: { xs: '2rem', sm: '3.5rem' }, 
-              }}
-            />
-          </Box> */}
         </Box>
 
         <Box
@@ -181,7 +155,7 @@ const Hero = () => {
 
           <Button
             variant="contained"
-            onClick={handleBookNow}
+            onClick={handleAvailability}
             disabled={!isBookNowEnabled}
             sx={{
               backgroundColor: isBookNowEnabled ? 'primary' : 'grey',
@@ -194,7 +168,7 @@ const Hero = () => {
               mt: { xs: 2, sm: 0 },
             }}
           >
-            View Rates
+            View Availability
           </Button>
         </Box>
       </Box>

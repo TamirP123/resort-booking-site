@@ -13,6 +13,7 @@ type Room {
     image: String
     type: String
     cost: Int
+    amenities: [String]
   }
 
 type Query {

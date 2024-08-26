@@ -1,0 +1,124 @@
+
+.rooms-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px;
+  font-family: 'Eagle Lake', sans-serif;
+  overflow-x: hidden; 
+}
+
+/* Styling for each room card */
+.room-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 20px;
+  width: 100%; /* Full width to fit mobile screens */
+  box-sizing: border-box; 
+}
+
+
+.main-image {
+  width: 50%;
+  height: auto; 
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+.room-details {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.room-text {
+  margin-bottom: auto;
+}
+
+.room-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.room-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Centering buttons and link together */
+.room-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  gap: 10px;
+  width: 100%; 
+}
+
+.more-details {
+  color: rgb(193, 163, 98);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.more-details:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .room-card {
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; 
+    gap: 20px;
+    width: 100%; 
+  }
+
+  .main-image {
+    width: 100%; /* Full width on smaller screens */
+    height: auto; 
+  }
+
+  .room-details {
+    width: 100%; /* Full width on smaller screens */
+    text-align: center;
+    padding: 10px; 
+  }
+
+  .room-title {
+    font-size: 1.5rem; 
+    margin-bottom: 10px; 
+  }
+
+  .room-description {
+    font-size: 0.9rem; 
+    margin-bottom: 10px; 
+  }
+
+  .room-actions {
+    margin-top: 20px; 
+  }
+}
+
+/* Ensure the default layout for larger screens is not overridden */
+@media (min-width: 769px) {
+  .room-card {
+    flex-direction: row; 
+  }
+
+  .room-card:nth-child(even) {
+    flex-direction: row-reverse; 
+  }
+
+  .room-card:nth-child(odd) {
+    flex-direction: row; 
+  }
+}

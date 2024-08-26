@@ -37,6 +37,7 @@ export const QUERY_ROOMS = gql`
         image
         type
         cost
+        amenities
       }
   }
 `;
