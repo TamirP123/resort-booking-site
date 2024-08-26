@@ -14,6 +14,8 @@ type Room {
     type: String
     cost: Int
     amenities: [String]
+    bedrooms: Int
+    bathrooms: Int
   }
 
 type Query {

@@ -10,7 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import '../styles/Hero.css'; 
-import HeroVideo from '../assets/Herovideo.mp4'; // Import your video
+import HeroVideo from '../assets/Herovideo.mp4'; 
 
 const Hero = () => {
   const [arrivalDate, setArrivalDate] = React.useState(null);

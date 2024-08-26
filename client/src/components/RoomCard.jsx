@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Auth from '../utils/auth';
 import { Box, Typography, Button } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import WifiIcon from '@mui/icons-material/Wifi';
@@ -11,11 +12,15 @@ import PoolIcon from '@mui/icons-material/Pool';
 import RoomServiceIcon from '@mui/icons-material/RoomService';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
+import HotelIcon from '@mui/icons-material/Hotel'; 
+import BathtubIcon from '@mui/icons-material/Bathtub'; 
+import ClockNotification from './ClockNotification'; // Ensure correct path
 
-// Function to generate a random number between 1 and 9
 const getRandomRoomsLeft = () => Math.floor(Math.random() * 9) + 1;
 
 const RoomCard = ({ room, handleBookNow }) => {
+  const [notification, setNotification] = useState({ message: '', type: '' });
+
   const amenityIcons = {
     Wifi: <WifiIcon />,
     'Smoke Free': <SmokeFreeIcon />,
@@ -29,10 +34,19 @@ const RoomCard = ({ room, handleBookNow }) => {
     'Free Breakfast': <RestaurantIcon/>
   };
 
-  const roomsLeft = getRandomRoomsLeft(); // Get the number of rooms left
+  const roomsLeft = getRandomRoomsLeft();
+  const roomsLeftColor = roomsLeft <= 3 ? 'red' : 'rgb(193, 163, 98)';
 
-  // Determine the color based on the number of rooms left
-  const roomsLeftColor = roomsLeft <= 3 ? 'red' : 'rgb(193, 163, 98)'
+  const handleBook = () => {
+    if (!Auth.loggedIn()) {
+      setNotification({
+        message: 'You must be logged in to book a room!',
+        type: 'error'
+      });
+      return;
+    }
+    handleBookNow(room);
+  };
 
   return (
     <Box sx={{ 
@@ -71,6 +85,52 @@ const RoomCard = ({ room, handleBookNow }) => {
             {roomsLeft} rooms left
           </Typography>
         </Box>
+        <Box sx={{
+          position: 'absolute',
+          bottom: 10,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          gap: 1,
+          justifyContent: 'center',
+          width: '100%',
+          padding: '0 10px'
+        }}>
+          <Box sx={{
+            backgroundColor: '#ffffff',
+            border: '1px solid #e0e0e0',
+            borderRadius: '50%',
+            padding: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '60px',
+            height: '60px',
+            boxShadow: 1
+          }}>
+            <HotelIcon sx={{ color: '#1976d2', marginRight: 0.5 }} />
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+              {room.bedrooms}
+            </Typography>
+          </Box>
+          <Box sx={{
+            backgroundColor: '#ffffff',
+            border: '1px solid #e0e0e0',
+            borderRadius: '50%',
+            padding: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '60px',
+            height: '60px',
+            boxShadow: 1
+          }}>
+            <BathtubIcon sx={{ color: '#1976d2', marginRight: 0.5 }} />
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+              {room.bathrooms}
+            </Typography>
+          </Box>
+        </Box>
       </Box>
       <Box sx={{ p: 2, background: 'linear-gradient(135deg, rgba(248, 244, 115, 1.0), rgba(227, 181, 41, 1.0))' }}>
         <Typography variant="h6" sx={{ fontFamily: 'Eagle Lake' }}>{room.name}</Typography>
@@ -100,11 +160,16 @@ const RoomCard = ({ room, handleBookNow }) => {
         <Button 
           variant="contained" 
           sx={{ mt: 2, backgroundColor: 'white', color: 'rgb(193, 163, 98)' }} 
-          onClick={() => handleBookNow(room)}
+          onClick={handleBook}
         >
           Book Now
         </Button>
       </Box>
+      <ClockNotification 
+        message={notification.message} 
+        onClose={() => setNotification({ message: '', type: '' })} 
+        type={notification.type} 
+      />
     </Box>
   );
 };

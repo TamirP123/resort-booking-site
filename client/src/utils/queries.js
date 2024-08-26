@@ -38,6 +38,8 @@ export const QUERY_ROOMS = gql`
         type
         cost
         amenities
+        bedrooms
+        bathrooms
       }
   }
 `;
