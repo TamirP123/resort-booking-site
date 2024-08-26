@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IntroSection from "../components/IntroSection";
 import RoomsGrid from "../components/RoomsGrid";
+import Banner from "../components/Banner";
+import TestimonialsSlider from "../components/TestimonialsSlider";
 
 const Homepage = () => {
   return (
@@ -34,6 +36,8 @@ const Homepage = () => {
         </Typography>
         <RoomsGrid />
       </Box>
+      <Banner />
+      <TestimonialsSlider />
     </Box>
   );
 };
