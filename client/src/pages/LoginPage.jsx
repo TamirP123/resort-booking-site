@@ -6,7 +6,6 @@ import logo from '../assets/logo.png';
 import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
 import ClockNotification from '../components/ClockNotification';
-import Navbar from '../components/Navbar';
 import HotelIcon from '@mui/icons-material/Hotel';
 import HailIcon from '@mui/icons-material/Hail';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
@@ -60,8 +59,6 @@ const LoginPage = () => {
 
     return (
         <>
-            {/*Navbar */}
-            <Navbar />
 
             <Box
                 sx={{

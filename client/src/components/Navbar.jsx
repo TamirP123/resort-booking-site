@@ -156,9 +156,11 @@ const Navbar = () => {
             }}
           >
             <IconButton
-              color="inherit"
               aria-label="menu"
               onClick={toggleDrawer(true)}
+              sx={{
+                color: scrolled ? 'black' : 'white', // Change color based on scroll
+              }}
             >
               <MenuIcon />
             </IconButton>

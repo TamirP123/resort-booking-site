@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,7 +10,6 @@ import TestimonialsSlider from "../components/TestimonialsSlider";
 const Homepage = () => {
   return (
     <Box>
-      <Navbar />
       <Hero />
       <IntroSection />
       <Box id="features" sx={{ p: 4, backgroundColor: "#f5f5f5" }}>

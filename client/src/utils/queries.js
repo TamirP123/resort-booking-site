@@ -40,6 +40,7 @@ export const QUERY_ROOMS = gql`
         amenities
         bedrooms
         bathrooms
+        displayImages
       }
   }
 `;

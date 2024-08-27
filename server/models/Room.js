@@ -33,6 +33,9 @@ const roomSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  displayImages: [{
+    type: String
+  }],
 });
 
 const Room = mongoose.model('Room', roomSchema);

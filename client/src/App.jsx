@@ -11,7 +11,7 @@ const httpLink = createHttpLink({
   uri: '/graphql'
 });
 
-// import Nav from './components/Nav';
+import Navbar from './components/Navbar';
 // import Footer from "./components/Footer.jsx";
 
 const authLink = setContext((_, { headers }) => {
@@ -32,7 +32,7 @@ const client = new ApolloClient({
 function App() {
   return (
   <ApolloProvider client={client}>
-    {/* <Nav /> */}
+    <Navbar />
     <Outlet />
     {/* <Footer /> */}
   </ApolloProvider>

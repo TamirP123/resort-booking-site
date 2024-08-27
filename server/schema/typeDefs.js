@@ -16,6 +16,7 @@ type Room {
     amenities: [String]
     bedrooms: Int
     bathrooms: Int
+    displayImages: [String]
   }
 
 type Query {

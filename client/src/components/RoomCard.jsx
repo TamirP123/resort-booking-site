@@ -1,51 +1,22 @@
 import React, { useState } from 'react';
-import Auth from '../utils/auth';
 import { Box, Typography, Button } from '@mui/material';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import WifiIcon from '@mui/icons-material/Wifi';
-import SmokeFreeIcon from '@mui/icons-material/SmokeFree';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import KitchenIcon from '@mui/icons-material/Kitchen';
-import TvIcon from '@mui/icons-material/Tv';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import PoolIcon from '@mui/icons-material/Pool';
-import RoomServiceIcon from '@mui/icons-material/RoomService';
-import SportsBarIcon from '@mui/icons-material/SportsBar';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
+import BookingModal from './BookingModal'; 
 import HotelIcon from '@mui/icons-material/Hotel'; 
 import BathtubIcon from '@mui/icons-material/Bathtub'; 
-import ClockNotification from './ClockNotification'; // Ensure correct path
+import ClockNotification from './ClockNotification';
 
 const getRandomRoomsLeft = () => Math.floor(Math.random() * 9) + 1;
 
-const RoomCard = ({ room, handleBookNow }) => {
+const RoomCard = ({ room }) => {
   const [notification, setNotification] = useState({ message: '', type: '' });
-
-  const amenityIcons = {
-    Wifi: <WifiIcon />,
-    'Smoke Free': <SmokeFreeIcon />,
-    'Free Parking': <LocalParkingIcon />,
-    Kitchen: <KitchenIcon />,
-    Tv: <TvIcon />,
-    'Fitness Center': <FitnessCenterIcon />,
-    'Pool Access': <PoolIcon/>,
-    'Room Service': <RoomServiceIcon/>,
-    'Bar Access': <SportsBarIcon/>,
-    'Free Breakfast': <RestaurantIcon/>
-  };
+  const [modalOpen, setModalOpen] = useState(false);
 
   const roomsLeft = getRandomRoomsLeft();
   const roomsLeftColor = roomsLeft <= 3 ? 'red' : 'rgb(193, 163, 98)';
 
   const handleBook = () => {
-    if (!Auth.loggedIn()) {
-      setNotification({
-        message: 'You must be logged in to book a room!',
-        type: 'error'
-      });
-      return;
-    }
-    handleBookNow(room);
+  
+    setModalOpen(true);
   };
 
   return (
@@ -137,29 +108,11 @@ const RoomCard = ({ room, handleBookNow }) => {
         <Typography variant="body4" color="textSecondary" sx={{ fontFamily: 'Eagle Lake' }}>
           {room.description}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 2 }}>
-          {room.amenities.map((amenity, index) => (
-            <Box
-              key={index}
-              className='amenitybox'
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px 12px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                gap: 1,
-                backgroundColor: '#f5f5f5'
-              }}
-            >
-              {amenityIcons[amenity] || <HelpOutlineIcon />}
-              <Typography variant="body2">{amenity}</Typography>
-            </Box>
-          ))}
-        </Box>
+      </Box>
+      <Box sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
         <Button 
           variant="contained" 
-          sx={{ mt: 2, backgroundColor: 'white', color: 'rgb(193, 163, 98)' }} 
+          sx={{ backgroundColor: 'white', color: 'rgb(193, 163, 98)' }} 
           onClick={handleBook}
         >
           Book Now
@@ -169,6 +122,12 @@ const RoomCard = ({ room, handleBookNow }) => {
         message={notification.message} 
         onClose={() => setNotification({ message: '', type: '' })} 
         type={notification.type} 
+      />
+      <BookingModal 
+        open={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        room={room} 
+        setNotification={setNotification}
       />
     </Box>
   );

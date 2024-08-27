@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/client';
 import { QUERY_ROOMS } from '../utils/queries';
 import { Typography, Box, TextField } from '@mui/material';
 import dayjs from 'dayjs';
-import Navbar from '../components/Navbar';
 import RoomCard from '../components/RoomCard';
 import FilterForm from '../components/FilterForm';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -57,16 +56,15 @@ const Availability = () => {
 
     return (
         <Box id="availability" sx={{ pt: 8 }}>
-            <Navbar />
             <Box 
                 sx={{ 
                     position: 'relative', 
-        height: '70vh', // Adjust height as needed
-        backgroundImage: 'url(https://img.freepik.com/premium-photo/luxurious-bedroom-with-large-windows-overlooking-tropical-beach-ocean_14117-723837.jpg?ga=GA1.1.1261594997.1724037380&semt=ais_hybrid)', // High-resolution image URL
-        backgroundSize: 'cover', // Ensure the image covers the container
-        backgroundPosition: 'center', // Center the image
-        backgroundAttachment: 'fixed', // Optional: fixed background for a parallax effect
-        backgroundRepeat: 'no-repeat', // Prevent repetition of the image
+        height: '70vh', 
+        backgroundImage: 'url(https://lh3.googleusercontent.com/fife/ALs6j_FYDF7VYZlb3NRWQ_E50sQDbbnxcLVKp_WPfohQORQpj37h3isctdiH2LowEsBmkzXM4yUEaK_XD-MlZ05arPO6cEg4UIf93K9f5UI2D5FrTmIXcRvCXkRX4-zGcD5Etkp4hNJFR_yEsxbVS02Q6UlEqZ02CO1WFfjFJePuOjJjhD_7z-cFmaWk2T_2w4pnHGdJUO30DYb8qnOb5CFK5P3Zl_tb_iUwVHhzr6HCma4aM6qCv4F9KfeXG5q3j_2gnE-gso1UaerwMaJDie2xvR5pAmxnZSPLv0BwL0NKTwNdfd8fQNQ5W_jwGhv5RjzSZqkH8P4MZb5LFKVOS5dYqRuOCw5_avgR2xry3pszqFnylZwzwx-qlW5DZaIFJ07C1vvQLK_iWkTmNsw0HFm473J81zj-J83aHCw7d5aB9HI55TsOGr0_3ge0McoKcOiKYsyC13tEOmp4T3mtri1CqqeG_e5jSpqKZNMBz2G0POJg2yS08emD8crsgGb-TQZwSHdry-oJJOXdhHYCJ1Es4i4SwnU4uupI4Z2hFdEyRmM8pxCp3QCMJNoB3c4EjIeca0dUX_TI52MK_ke5TxonUKVTSdZFCalNxchuUx4x1Jr0q7VL-A-oT51zEdxhXKCkHVEe_VBwZhjdUYzxWH_1fVpllty4Yf27Czapsf5Mg04dZFytNeQ5cqcj9-hADk45oirnei4TqRYgbGrXGOGunH1Hs8-po7ILuP9u4t2F2sOzEKZpHv97Z8ZnvDa185PRB32VPi4HTloZZagequmoNiiuChiCQwTFYPpNkjfDAm-6Nubw4NwAozJLfZRNErpUqaban5xh1GCczWsPTUU1uVgsznmOKVYX8Q6xKc3wIJKr3SrT1uG_Ow25_6SIBQjfGEl89mul-9WQDOviKEMvdtchGUinS2CcsJqiUCmHqXF9Wik8wYzKpGDe8NPW3Qx-7YWqsHpBBy9R4WwAMN7RlLqrpOk-YEFcV06EOgvq6P7Dc7oW8XXKjJRkDSs4z7_1i86Y6rJeW6kOtupCecnQOO1UDL7GcDQQY8CZkZbUY7msaqZ_E9yy8peSrB9I2K8HGMQUK01dlb8TnEZ2dTjoASe9tfTCTtO76MxU3hwIdWFLjbEgR4kKleKzPnLZTUePTyhIZAkfZB3ObSfAOp09nnfVQYyFRsdHPDpIIkjU0lvS7nye6HtkJQoQ1VDYfJI8RA4mtyZDaZP4K-Wl05kkZd4FAx1v-IY_hFBqVk80yBTqJVZAmwLXeT0ZzL_a9Tmj_hSAhW5mupabKQsKqEyxJ1EIiwdd1WlLrIU0wml4g4vhCKsl1BScbwLcTNHYsABpvoYkCgUmcaYP5FaG4rU2gZ9I1O1IUHSqehXYUsVZQYq_Jc4yOAmmjJnCw0YF_6Fk536VpL_eMVBYgAxOrbqhem6024OYNPWG6tf9hs8MK7We97l8IHMJcJe1ag=s512)', // High-resolution image URL
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
+        backgroundAttachment: 'fixed', 
+        backgroundRepeat: 'no-repeat', 
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
