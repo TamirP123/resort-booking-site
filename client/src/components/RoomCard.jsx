@@ -7,7 +7,7 @@ import ClockNotification from './ClockNotification';
 
 const getRandomRoomsLeft = () => Math.floor(Math.random() * 9) + 1;
 
-const RoomCard = ({ room }) => {
+const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
   const [notification, setNotification] = useState({ message: '', type: '' });
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -15,7 +15,6 @@ const RoomCard = ({ room }) => {
   const roomsLeftColor = roomsLeft <= 3 ? 'red' : 'rgb(193, 163, 98)';
 
   const handleBook = () => {
-  
     setModalOpen(true);
   };
 
@@ -75,14 +74,10 @@ const RoomCard = ({ room }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '60px',
-            height: '60px',
-            boxShadow: 1
+            width: 40,
+            height: 40
           }}>
-            <HotelIcon sx={{ color: '#1976d2', marginRight: 0.5 }} />
-            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-              {room.bedrooms}
-            </Typography>
+            <HotelIcon sx={{ color: '#000' }} />
           </Box>
           <Box sx={{
             backgroundColor: '#ffffff',
@@ -92,43 +87,49 @@ const RoomCard = ({ room }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '60px',
-            height: '60px',
-            boxShadow: 1
+            width: 40,
+            height: 40
           }}>
-            <BathtubIcon sx={{ color: '#1976d2', marginRight: 0.5 }} />
-            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-              {room.bathrooms}
-            </Typography>
+            <BathtubIcon sx={{ color: '#000' }} />
           </Box>
         </Box>
       </Box>
-      <Box sx={{ p: 2, background: 'linear-gradient(135deg, rgba(248, 244, 115, 1.0), rgba(227, 181, 41, 1.0))' }}>
-        <Typography variant="h6" sx={{ fontFamily: 'Eagle Lake' }}>{room.name}</Typography>
-        <Typography variant="body4" color="textSecondary" sx={{ fontFamily: 'Eagle Lake' }}>
+      <Box sx={{ padding: 2 }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          {room.name}
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 1 }}>
           {room.description}
         </Typography>
-      </Box>
-      <Box sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
-        <Button 
-          variant="contained" 
-          sx={{ backgroundColor: 'white', color: 'rgb(193, 163, 98)' }} 
+        <Button
+          variant="contained"
+          color="primary"
           onClick={handleBook}
         >
           Book Now
         </Button>
       </Box>
-      <ClockNotification 
-        message={notification.message} 
-        onClose={() => setNotification({ message: '', type: '' })} 
-        type={notification.type} 
+      <BookingModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        room={room}
+        arrivalDate={arrivalDate}
+        departureDate={departureDate}
+        onBook={() => {
+          handleBookNow(room);
+          setNotification({
+            message: 'Booking successful!',
+            type: 'success'
+          });
+          setModalOpen(false);
+        }}
       />
-      <BookingModal 
-        open={modalOpen} 
-        onClose={() => setModalOpen(false)} 
-        room={room} 
-        setNotification={setNotification}
-      />
+      {notification.message && (
+        <ClockNotification
+          message={notification.message}
+          type={notification.type}
+        />
+      )}
     </Box>
   );
 };

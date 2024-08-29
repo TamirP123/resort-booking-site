@@ -32,6 +32,7 @@ export const QUERY_USERS = gql`
 export const QUERY_ROOMS = gql`
   query getRooms{
     rooms {
+        _id
         name
         description
         image

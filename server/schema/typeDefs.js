@@ -1,9 +1,19 @@
 const typeDefs = `
+type Booking {
+  _id: ID!
+  user: User!
+  room: Room!
+  checkInDate: String!
+  checkOutDate: String!
+  totalPrice: Int
+  status: String!
+}
+
 type User {
-  _id: ID
+  _id: ID!
   username: String!
   email: String!
-  password: String!
+  bookings: [Booking!]!
 }
 
 type Room {
@@ -24,6 +34,8 @@ type Query {
   user(username: String!): User
   me: User
   rooms: [Room]
+  getUserBookings(userId: ID!): [Booking!]!
+  getBooking(bookingId: ID!): Booking
 }
 
 type Auth {
@@ -31,10 +43,18 @@ type Auth {
   user: User
 }
 
+type PaymentIntentResponse {
+    clientSecret: String!
+  }
+
 type Mutation {
   addUser(username: String!, email: String!, password: String!): Auth
   login(email: String!, password: String!): Auth
   addRoom(name: String!, description: String!, image: String!, type: String!, cost: Int!): Room
+  createPaymentIntent(amount: Int!): PaymentIntentResponse!
+  createBooking(userId: ID!, roomId: ID!, checkInDate: String!, checkOutDate: String!): Booking!
+  updateBooking(bookingId: ID!, status: String!): Booking!
+  deleteBooking(bookingId: ID!): Booking!
 }
 `;
 

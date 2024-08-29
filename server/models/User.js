@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
-const dayjs = require('dayjs');
 
 const userSchema =  new Schema({
   username: {
@@ -18,6 +17,10 @@ const userSchema =  new Schema({
     required: true,
     trim: true
   },
+  bookings: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Booking'
+  }]
 });
 
 userSchema.pre('save', async function(next) {

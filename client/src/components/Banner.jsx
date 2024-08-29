@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
 import PoolIcon from '@mui/icons-material/Pool';
+import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 
 
 const Banner = () => {
@@ -49,15 +50,15 @@ const Banner = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
           {/* Icons Section */}
           <Box sx={{ textAlign: 'center', mx: 2 }}>
-            <LocalBarIcon sx={{ fontSize: 40, color: 'rgb(193, 163, 98)' }} /> {/* Pool icon */}
+            <LocalBarIcon sx={{ fontSize: 40, color: 'rgb(193, 163, 98)' }} /> 
             <Typography variant="body2">Pool Beachbar</Typography>
           </Box>
           <Box sx={{ textAlign: 'center', mx: 2 }}>
-            <PoolIcon sx={{ fontSize: 40, color: 'rgb(193, 163, 98)' }} /> {/* Pool icon */}
+            <PoolIcon sx={{ fontSize: 40, color: 'rgb(193, 163, 98)' }} /> 
             <Typography variant="body2">Infinity Pool</Typography>
           </Box>
           <Box sx={{ textAlign: 'center', mx: 2 }}>
-            <LocalBarIcon sx={{ fontSize: 40, color: 'rgb(193, 163, 98)' }} /> {/* Pool icon */}
+            <AirlineSeatFlatIcon sx={{ fontSize: 40, color: 'rgb(193, 163, 98)' }} /> 
             <Typography variant="body2">Sunbeds</Typography>
           </Box>
         </Box>

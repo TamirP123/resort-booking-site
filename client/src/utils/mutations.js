@@ -43,3 +43,24 @@ export const ADD_ROOM = gql`
     }
   }
 `;
+
+export const CREATE_PAYMENT_INTENT = gql`
+  mutation CreatePaymentIntent($amount: Int!) {
+    createPaymentIntent(amount: $amount) {
+      clientSecret
+    }
+  }
+`;
+
+export const CREATE_BOOKING = gql`
+  mutation createBooking($input: BookingInput!) {
+    createBooking(input: $input) {
+      _id
+      userId
+      roomId
+      arrivalDate
+      departureDate
+      totalCost
+    }
+  }
+`;

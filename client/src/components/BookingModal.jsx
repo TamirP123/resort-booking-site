@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Modal, Box, Typography, Button, IconButton } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Modal, Box, Typography, Button, IconButton, CircularProgress } from '@mui/material';
+import Auth from "../utils/auth";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,10 +15,37 @@ import RoomServiceIcon from '@mui/icons-material/RoomService';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import ClockNotification from './ClockNotification'; 
+import ClockNotification from './ClockNotification';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import { useMutation } from '@apollo/client';
+import { CREATE_PAYMENT_INTENT } from '../utils/mutations';
 
-const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+
+const BookingModal = ({ open, onClose, room, arrivalDate, departureDate }) => {
   const [notification, setNotification] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [clientSecret, setClientSecret] = useState(null);
+  const stripe = useStripe();
+  const elements = useElements();
+  const [createPaymentIntent] = useMutation(CREATE_PAYMENT_INTENT);
+  const navigate = useNavigate();
+
+  // Initialize date objects
+  const arrival = dayjs(arrivalDate);
+  const departure = dayjs(departureDate);
+
+  // Check for valid dates
+  if (!arrival.isValid() || !departure.isValid()) {
+    return <Typography>Error: Invalid date selected.</Typography>;
+  }
+
+  // Calculate the total cost
+  const duration = departure.diff(arrival, 'day');
+  const baseCost = room.cost * duration;
+  const taxAmount = baseCost * 0.10; // 10% tax
+  const totalCost = baseCost + taxAmount;
 
   const amenityIcons = {
     Wifi: <WifiIcon />,
@@ -32,13 +60,57 @@ const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
     'Free Breakfast': <RestaurantIcon />
   };
 
-  const handleReserve = () => {
-    if (!isLoggedIn) {
-      
+  // Fetch client secret for Stripe
+  useEffect(() => {
+    const fetchClientSecret = async () => {
+      try {
+        const { data } = await createPaymentIntent({ variables: { amount: totalCost * 100 } });
+        setClientSecret(data.createPaymentIntent.clientSecret);
+      } catch (error) {
+        console.error('Error fetching client secret:', error);
+        setNotification({ type: 'error', message: 'Failed to initiate payment. Please try again.' });
+      }
+    };
+
+    if (totalCost) {
+      fetchClientSecret();
+    }
+  }, [totalCost, createPaymentIntent]);
+
+  const handleReserve = async () => {
+    if (!Auth.loggedIn()) {
       setNotification({ type: 'error', message: 'You must be logged in to reserve a room.' });
-    } else {
-      
-      setNotification({ type: 'success', message: 'Room reserved successfully!' });
+      return;
+    }
+
+    if (!stripe || !elements || !clientSecret) {
+      setNotification({ type: 'error', message: 'Stripe not loaded properly. Please try again.' });
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      const cardElement = elements.getElement(CardElement);
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: { name: 'Customer Name' },
+        },
+      });
+
+      if (error) {
+        setNotification({ type: 'error', message: 'Payment failed. Please try again.' });
+      } else if (paymentIntent.status === 'succeeded') {
+        setNotification({ type: 'success', message: 'Payment successful! Your reservation is confirmed.' });
+        setTimeout(() => {
+          navigate('/success'); // Redirect to success page after successful payment
+        }, 3000);
+      }
+    } catch (err) {
+      setNotification({ type: 'error', message: 'An error occurred during payment processing.' });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -49,7 +121,7 @@ const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
         <ClockNotification
           type={notification.type}
           message={notification.message}
-          onClose={() => setNotification(null)} // Reset notification when closed
+          onClose={() => setNotification(null)}
         />
       )}
 
@@ -70,7 +142,7 @@ const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
             display: 'flex',
             alignItems: 'center',
             gap: 1,
-            mb: 2 
+            mb: 2
           }}>
             <IconButton onClick={onClose} sx={{ color: 'blue' }}>
               <CloseIcon />
@@ -94,20 +166,24 @@ const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
             ))}
           </Carousel>
 
-          {/* Room Name */}
-          <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 2 }}>
-            {room.name}
-          </Typography>
-
-          {/* Room Type */}
-          <Typography variant="body2" color="textSecondary">
-            {room.type}
-          </Typography>
-
-          {/* Room Description */}
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            {room.description}
-          </Typography>
+          {/* Room Name and Description */}
+          <Box sx={{
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            p: 2,
+            mt: 2,
+            bgcolor: '#f5f5f5'
+          }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {room.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {room.type}
+            </Typography>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              {room.description}
+            </Typography>
+          </Box>
 
           {/* Amenities */}
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 2, justifyContent: 'center' }}>
@@ -131,17 +207,15 @@ const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
             ))}
           </Box>
 
-          {/* Pricing and Reserve Button */}
+          {/* Pricing and Payment Details */}
           <Box sx={{
             border: '1px solid #e0e0e0',
-            borderRadius: 1,
+            borderRadius: '8px',
             mt: 2,
             p: 2,
-            bgcolor: '#f5f5f5',
-            position: 'relative',
-            minHeight: '150px'
+            bgcolor: '#f5f5f5'
           }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
               Room Options
             </Typography>
             <Typography variant="body2" sx={{ color: 'green' }}>
@@ -151,15 +225,27 @@ const BookingModal = ({ open, onClose, room, isLoggedIn }) => {
               ${room.cost} /night
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              Total cost: ${room.cost * 2} 
+              ${taxAmount.toFixed(2)} maintenance fees applied
             </Typography>
+            <Typography variant="body1" sx={{ fontWeight: 'bold', mt: 1 }}>
+              Total cost: ${totalCost.toFixed(2)}
+            </Typography>
+
+            {/* Payment Form */}
+            <Box sx={{ mt: 2, borderTop: '1px solid #e0e0e0', pt: 2 }}>
+              <Typography variant="h6">Payment Details</Typography>
+              <CardElement options={{ hidePostalCode: true }} />
+            </Box>
+
             <Button
               variant="contained"
               color="primary"
-              sx={{ position: 'absolute', bottom: 16, right: 16 }}
+              fullWidth
               onClick={handleReserve}
+              disabled={isProcessing}
+              sx={{ mt: 2 }}
             >
-              Reserve
+              {isProcessing ? <CircularProgress size={24} /> : 'Reserve Now'}
             </Button>
           </Box>
         </Box>

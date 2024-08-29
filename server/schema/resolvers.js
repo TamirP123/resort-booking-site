@@ -1,5 +1,9 @@
-const { User, Room } = require('../models');
+const { User, Room, Booking } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
+// Having issues with my API key via .env This is a free provided key from Stripe, typically would NOT put a secret key explicity like below.
+const stripe = require('stripe')('sk_test_51Pss2CC5VCV0wby5a0zQ6Apnw4Iy8Mx8kfkDD0iPgZ9YK99zBVg47LDqLqjvbbaSKwYVCOXMzxg5gbfXyz73bGiI00N0awVH2o');
+
+
 
 const resolvers = {
   Query: {
@@ -18,6 +22,12 @@ const resolvers = {
     rooms: async () => {
       return Room.find();
     },
+    getUserBookings: async (_, { userId }) => {
+      return await Booking.find({ user: userId }).populate('room');
+    },
+    getBooking: async (_, { bookingId }) => {
+      return await Booking.findById(bookingId).populate('user').populate('room');
+    }
   },
 
   Mutation: {
@@ -45,6 +55,51 @@ const resolvers = {
     addRoom: async (parent, { name, description, image, type, cost }) => {
       return Room.create({ name, description, image, type, cost });
     },
+    createPaymentIntent: async (_, { amount }) => {
+      try {
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount,
+          currency: 'usd',
+        });
+
+        return {
+          clientSecret: paymentIntent.client_secret,
+        };
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    createBooking: async (_, { userId, roomId, checkInDate, checkOutDate, totalCost }) => {
+      const booking = new Booking({
+        user: userId,
+        room: roomId,
+        checkInDate,
+        checkOutDate,
+        totalCost
+      });
+
+      await booking.save();
+
+      // Update user's bookings
+      await User.findByIdAndUpdate(userId, { $push: { bookings: booking._id } });
+
+      return booking;
+    },
+    updateBooking: async (_, { bookingId, status }) => {
+      return await Booking.findByIdAndUpdate(bookingId, { status }, { new: true });
+    },
+    deleteBooking: async (_, { bookingId }) => {
+      const booking = await Booking.findById(bookingId);
+
+      if (booking) {
+        // Remove booking from user's bookings array
+        await User.findByIdAndUpdate(booking.user, { $pull: { bookings: bookingId } });
+
+        await Booking.findByIdAndDelete(bookingId);
+      }
+
+      return booking;
+    }
   },
 };
 

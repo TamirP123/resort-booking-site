@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: '../../.env' });
 const express = require("express");
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
@@ -6,7 +8,10 @@ const app = express();
 const path = require('path');
 const { typeDefs, resolvers } = require('./schema');
 const db = require('./config/connection');
-const { authMiddleware } = require('./utils/auth')
+const { authMiddleware } = require('./utils/auth');
+
+console.log('Stripe Secret Key:', process.env.secret); // Debugging line
+
 const server = new ApolloServer({ 
     typeDefs, 
     resolvers
@@ -29,7 +34,7 @@ const startApolloServer = async () => {
 
     db.once('open', () => {
         app.listen(PORT, () => {
-            console.log('GraphQL listening on http://localhost:3000/graphql');
+            console.log(`GraphQL listening on http://localhost:${PORT}/graphql`);
         })
     })
 }
