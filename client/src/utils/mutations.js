@@ -53,14 +53,43 @@ export const CREATE_PAYMENT_INTENT = gql`
 `;
 
 export const CREATE_BOOKING = gql`
-  mutation createBooking($input: BookingInput!) {
-    createBooking(input: $input) {
+  mutation createBooking(
+    $userId: ID!
+    $roomId: ID!
+    $checkInDate: String!
+    $checkOutDate: String!
+    $totalPrice: Int!
+  ) {
+    createBooking(
+      userId: $userId
+      roomId: $roomId
+      checkInDate: $checkInDate
+      checkOutDate: $checkOutDate
+      totalPrice: $totalPrice
+    ) {
       _id
-      userId
-      roomId
-      arrivalDate
-      departureDate
-      totalCost
+      checkInDate
+      checkOutDate
+      totalPrice
+      status
     }
   }
 `;
+
+export const UPDATE_BOOKING = gql`
+  mutation updateBooking($bookingId: ID!, $status: String!) {
+    updateBooking(bookingId: $bookingId, status: $status) {
+      _id
+      status
+    }
+  }
+`;
+
+export const DELETE_BOOKING = gql`
+  mutation deleteBooking($bookingId: ID!) {
+    deleteBooking(bookingId: $bookingId) {
+      _id
+    }
+  }
+`;
+

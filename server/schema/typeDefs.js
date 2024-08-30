@@ -52,7 +52,7 @@ type Mutation {
   login(email: String!, password: String!): Auth
   addRoom(name: String!, description: String!, image: String!, type: String!, cost: Int!): Room
   createPaymentIntent(amount: Int!): PaymentIntentResponse!
-  createBooking(userId: ID!, roomId: ID!, checkInDate: String!, checkOutDate: String!): Booking!
+  createBooking(userId: ID!, roomId: ID!, checkInDate: String!, checkOutDate: String!, totalPrice: Int!): Booking!
   updateBooking(bookingId: ID!, status: String!): Booking!
   deleteBooking(bookingId: ID!): Booking!
 }

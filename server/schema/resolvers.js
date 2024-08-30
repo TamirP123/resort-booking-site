@@ -69,18 +69,18 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    createBooking: async (_, { userId, roomId, checkInDate, checkOutDate, totalCost }) => {
-      const booking = new Booking({
+    createBooking: async (_, { userId, roomId, checkInDate, checkOutDate, totalPrice }) => {
+      // Create new booking
+      const booking = await Booking.create({
         user: userId,
         room: roomId,
         checkInDate,
         checkOutDate,
-        totalCost
+        totalPrice,
+        status: 'Confirmed'
       });
 
-      await booking.save();
-
-      // Update user's bookings
+      // Add booking to user
       await User.findByIdAndUpdate(userId, { $push: { bookings: booking._id } });
 
       return booking;

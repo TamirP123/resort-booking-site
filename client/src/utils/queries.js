@@ -45,3 +45,21 @@ export const QUERY_ROOMS = gql`
       }
   }
 `;
+
+export const GET_USER_BOOKINGS = gql`
+  query GetUserBookings($userId: ID!) {
+    getUserBookings(userId: $userId) {
+      _id
+      checkInDate
+      checkOutDate
+      totalPrice
+      status
+      room {
+        _id
+        name
+        description
+        image
+      }
+    }
+  }
+`;

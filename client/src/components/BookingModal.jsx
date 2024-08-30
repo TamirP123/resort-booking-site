@@ -18,7 +18,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ClockNotification from './ClockNotification';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useMutation } from '@apollo/client';
-import { CREATE_PAYMENT_INTENT } from '../utils/mutations';
+import { CREATE_PAYMENT_INTENT, CREATE_BOOKING } from '../utils/mutations';
 
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
@@ -30,9 +30,10 @@ const BookingModal = ({ open, onClose, room, arrivalDate, departureDate }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [createPaymentIntent] = useMutation(CREATE_PAYMENT_INTENT);
+  const [createBooking] = useMutation(CREATE_BOOKING);
   const navigate = useNavigate();
 
-  // Initialize date objects
+
   const arrival = dayjs(arrivalDate);
   const departure = dayjs(departureDate);
 
@@ -82,32 +83,71 @@ const BookingModal = ({ open, onClose, room, arrivalDate, departureDate }) => {
       setNotification({ type: 'error', message: 'You must be logged in to reserve a room.' });
       return;
     }
-
+  
+    // Log Stripe and Elements status
+    console.log('Stripe Loaded:', stripe);
+    console.log('Elements Loaded:', elements);
+    console.log('Client Secret:', clientSecret);
+    console.log('User', Auth.getProfile().authenticatedPerson._id,
+    'Room Id', room._id,
+    'Arrival', arrivalDate,
+    'Departure', departureDate,
+    'Cost', totalCost);
+  
     if (!stripe || !elements || !clientSecret) {
       setNotification({ type: 'error', message: 'Stripe not loaded properly. Please try again.' });
       return;
     }
-
+  
     setIsProcessing(true);
-
+  
     try {
       const cardElement = elements.getElement(CardElement);
+      console.log('Card Element:', cardElement);
+  
+      // Confirm card payment with Stripe
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardElement,
-          billing_details: { name: 'Customer Name' },
+          billing_details: { name: 'Customer Name' }, 
         },
       });
-
+  
       if (error) {
-        setNotification({ type: 'error', message: 'Payment failed. Please try again.' });
-      } else if (paymentIntent.status === 'succeeded') {
+        console.error('Payment Error:', error.message);
+        setNotification({ type: 'error', message: `Payment failed: ${error.message}` });
+        return;
+      }
+  
+      console.log('Payment Intent:', paymentIntent);
+  
+      if (paymentIntent.status === 'succeeded') {
+        console.log('Payment Succeeded, creating booking...');
+  
+        // creating booking in the database
+        const { data } = await createBooking({
+          variables: {
+            userId: Auth.getProfile().authenticatedPerson._id,
+            roomId: room._id,
+            checkInDate: arrivalDate,
+            checkOutDate: departureDate,
+            totalPrice: totalCost * 100, // Updated to totalPrice
+          },
+        });
+  
+        console.log('Booking Created:', data);
+        
+        // Booking successful
         setNotification({ type: 'success', message: 'Payment successful! Your reservation is confirmed.' });
         setTimeout(() => {
           navigate('/success'); // Redirect to success page after successful payment
         }, 3000);
+      } else {
+        console.error('Unexpected Payment Intent Status:', paymentIntent.status);
+        setNotification({ type: 'error', message: 'Payment processing error. Please try again.' });
       }
     } catch (err) {
+      console.error('Payment Processing Error:', err.message);
       setNotification({ type: 'error', message: 'An error occurred during payment processing.' });
     } finally {
       setIsProcessing(false);

@@ -16,6 +16,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
 import Availability from './pages/Availability.jsx';
 import SuccessPage from './pages/SuccessPage.jsx';
+import ReservationsPage from './pages/ReservationsPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: 'success',
         element: <SuccessPage />
+      },
+      {
+        path: '/reservations',
+        element: <ReservationsPage />
       },
     ]
   }

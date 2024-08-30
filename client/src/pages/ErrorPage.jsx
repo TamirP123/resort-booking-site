@@ -10,7 +10,7 @@ const ErrorPage = () => {
         <img 
           src="https://www.iconpacks.net/icons/2/free-sad-face-icon-2691-thumb.png" 
           alt="Error" 
-          style={{ maxWidth: '15%', height: 'auto', marginBottom: '20px' }}
+          style={{ maxWidth: '15%', height: 'auto', marginTop: 105 }}
         />
       </Box>
 
