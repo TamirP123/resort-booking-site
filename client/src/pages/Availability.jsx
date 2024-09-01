@@ -17,9 +17,10 @@ const Availability = () => {
     }, []);
 
     const { state } = useLocation();
-    const navigate = useNavigate();
-    const [arrivalDate, setArrivalDate] = React.useState(dayjs(state?.arrivalDate || null));
-    const [departureDate, setDepartureDate] = React.useState(dayjs(state?.departureDate || null));
+    const initialArrivalDate = state?.arrivalDate ? dayjs(state.arrivalDate) : dayjs(); 
+    const initialDepartureDate = state?.departureDate ? dayjs(state.departureDate) : dayjs().add(1, 'day'); 
+    const [arrivalDate, setArrivalDate] = React.useState(initialArrivalDate);
+    const [departureDate, setDepartureDate] = React.useState(initialDepartureDate);
     const [bedrooms, setBedrooms] = React.useState('');
     const [bathrooms, setBathrooms] = React.useState('');
     const [sortOrder, setSortOrder] = React.useState('Recommended');

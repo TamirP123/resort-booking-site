@@ -48,8 +48,13 @@ const ReservationsPage = () => {
     setNotification({ message: '', type: '' });
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(parseInt(timestamp));
+    return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString();
+  };
+
   return (
-    <Container sx={{mt:15}}>
+    <Container sx={{ mt: 15 }}>
       <Typography variant="h4" gutterBottom>
         {Auth.getProfile().authenticatedPerson.username}'s Reservations
       </Typography>
@@ -70,8 +75,8 @@ const ReservationsPage = () => {
               <TableRow key={booking._id}>
                 <TableCell>{booking.room.name}</TableCell>
                 <TableCell style={{ color: 'green' }}>{booking.status}</TableCell>
-                <TableCell>{new Date(booking.checkInDate).toLocaleDateString()}</TableCell>
-                <TableCell>{new Date(booking.checkOutDate).toLocaleDateString()}</TableCell>
+                <TableCell>{formatDate(booking.checkInDate)}</TableCell>
+                <TableCell>{formatDate(booking.checkOutDate)}</TableCell>
                 <TableCell style={{ color: 'green' }}>{formatPrice(booking.totalPrice)}</TableCell>
                 <TableCell>
                   <IconButton color="error" onClick={() => handleDelete(booking._id)}>
