@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useMediaQuery, useTheme } from '@mui/material';
 import BookingModal from './BookingModal'; 
 import HotelIcon from '@mui/icons-material/Hotel'; 
 import BathtubIcon from '@mui/icons-material/Bathtub'; 
@@ -10,12 +10,19 @@ const getRandomRoomsLeft = () => Math.floor(Math.random() * 9) + 1;
 const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
   const [notification, setNotification] = useState({ message: '', type: '' });
   const [modalOpen, setModalOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const roomsLeft = getRandomRoomsLeft();
   const roomsLeftColor = roomsLeft <= 3 ? 'red' : 'rgb(193, 163, 98)';
 
   const handleBook = () => {
     setModalOpen(true);
+  };
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
@@ -26,7 +33,7 @@ const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
       overflow: 'hidden', 
       border: '1px solid #e0e0e0', 
       width: '100%', 
-      maxWidth: '800px',
+      maxWidth: { xs: '100%', sm: '800px' },
       mx: 'auto',
       boxShadow: 3
     }}>
@@ -34,7 +41,7 @@ const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
         <img 
           src={room.image} 
           alt={room.name} 
-          style={{ width: '100%', height: '500px', objectFit: 'cover' }}
+          style={{ width: '100%', height: isMobile ? '300px' : '500px', objectFit: 'cover' }}
         />
         <Box sx={{
           position: 'absolute',
@@ -45,7 +52,10 @@ const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
           padding: '5px 10px',
           display: 'flex',
           alignItems: 'center',
-          gap: 1
+          gap: 1,
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end',
+          maxWidth: '100%'
         }}>
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
             ${room.cost}
@@ -71,34 +81,53 @@ const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
             gap: 2,
             backgroundColor: 'rgba(255, 255, 255, 0.8)',
             borderRadius: '20px',
-            padding: '8px 16px',
+            padding: isMobile ? '4px 8px' : '8px 16px',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <HotelIcon sx={{ fontSize: 20 }} />
-              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {room.bedrooms} {room.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <HotelIcon sx={{ fontSize: isMobile ? 16 : 20 }} />
+              <Typography variant="body2" sx={{ fontWeight: 'bold', fontSize: isMobile ? '0.7rem' : '0.875rem' }}>
+                {room.bedrooms} {room.bedrooms === 1 ? 'Bed' : 'Beds'}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <BathtubIcon sx={{ fontSize: 20 }} />
-              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {room.bathrooms} {room.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <BathtubIcon sx={{ fontSize: isMobile ? 16 : 20 }} />
+              <Typography variant="body2" sx={{ fontWeight: 'bold', fontSize: isMobile ? '0.7rem' : '0.875rem' }}>
+                {room.bathrooms} {room.bathrooms === 1 ? 'Bath' : 'Baths'}
               </Typography>
             </Box>
           </Box>
         </Box>
       </Box>
       <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 1 }}>
           {room.name}
         </Typography>
-        <Typography variant="body2" sx={{ mb: 2, textAlign: 'center' }}>
-          {room.description}
-        </Typography>
+        <Box sx={{ 
+          display: isMobile ? (isExpanded ? 'block' : '-webkit-box') : 'block',
+          WebkitLineClamp: isMobile && !isExpanded ? 3 : 'none',
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          mb: 2, 
+          textAlign: 'center',
+          width: '100%'
+        }}>
+          <Typography variant="body2">
+            {room.description}
+          </Typography>
+        </Box>
+        {isMobile && (
+          <Button onClick={toggleDescription} variant="text" size="small" sx={{ mb: 2 }}>
+            {isExpanded ? 'Show Less' : 'Show More'}
+          </Button>
+        )}
         <Button
           variant="contained"
           color="primary"
           onClick={handleBook}
+          fullWidth
         >
           Book Now
         </Button>

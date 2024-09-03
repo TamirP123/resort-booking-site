@@ -8,16 +8,16 @@ const Footer = () => {
       <Container maxWidth="lg">
         <Paper elevation={3} sx={{ p: 4, bgcolor: '#2a2a2a', borderRadius: 2 }}>
           <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
-            <IconButton href="#" aria-label="LinkedIn" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
+            <IconButton href="https://www.linkedin.com/in/tamir-phillips-6096922ba" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
               <LinkedIn sx={{ color: '#0077B5', fontSize: 40, filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.3))' }} />
             </IconButton>
-            <IconButton href="#" aria-label="GitHub" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
+            <IconButton href="https://github.com/TamirP123" target="_blank" rel="noopener noreferrer" aria-label="GitHub" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
               <GitHub sx={{ color: '#f5f5f5', fontSize: 40, filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.3))' }} />
             </IconButton>
-            <IconButton href="#" aria-label="Instagram" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
+            <IconButton href="https://www.instagram.com/tamir" target="_blank" rel="noopener noreferrer" aria-label="Instagram" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
               <Instagram sx={{ color: '#E1306C', fontSize: 40, filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.3))' }} />
             </IconButton>
-            <IconButton href="#" aria-label="Twitter" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
+            <IconButton href="https://twitter.com/tamir" target="_blank" rel="noopener noreferrer" aria-label="Twitter" sx={{ mx: 1, transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.2)' } }}>
               <Twitter sx={{ color: '#1DA1F2', fontSize: 40, filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.3))' }} />
             </IconButton>
           </Box>
