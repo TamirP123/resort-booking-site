@@ -12,7 +12,7 @@ const httpLink = createHttpLink({
 });
 
 import Navbar from './components/Navbar';
-// import Footer from "./components/Footer.jsx";
+import Footer from "./components/Footer.jsx";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
@@ -34,7 +34,7 @@ function App() {
   <ApolloProvider client={client}>
     <Navbar />
     <Outlet />
-    {/* <Footer /> */}
+    <Footer />
   </ApolloProvider>
     )
 }

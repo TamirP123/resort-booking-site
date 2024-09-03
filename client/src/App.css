@@ -1,33 +1,37 @@
-#root {
-  margin: 0 auto;
-  text-align: center;
-  width: 100%;
-}
-
-body {
-  background-color: #edecea;
-  padding-bottom: 70px;
-}
-
-.inknut-text {
-    font-family: "Inknut Antiqua", serif;
-    font-weight: 300;
-    font-style: normal;
-}
-
-.room-link {
-  text-decoration: none;
-  color: grey;
-}
-
-/* Apply box-sizing to all elements */
-* {
-  box-sizing: border-box;
+/* Ensure the root takes up full height */
+html, body, #root {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Prevent horizontal overflow */
-html, body {
-  overflow-x: hidden;
+/* Flexbox layout to push footer down */
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content will fill the available space */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ensures content stretches to fill available space */
+}
+
+/* Flex-grow: the content expands to fill the remaining space */
+.content {
+  flex: 1; /* Grow to fill available space */
+}
+
+/* Ensure footer is pinned to the bottom */
+footer {
+  background-color: #f2f2f2;
+  color: #DAA520;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Optional body styling to prevent excess padding at bottom */
+body {
+  background-color: #edecea;
 }
