@@ -67,38 +67,32 @@ const RoomCard = ({ room, arrivalDate, departureDate, handleBookNow }) => {
           padding: '0 10px'
         }}>
           <Box sx={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #e0e0e0',
-            borderRadius: '50%',
-            padding: '8px',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 40,
-            height: 40
+            gap: 2,
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            borderRadius: '20px',
+            padding: '8px 16px',
           }}>
-            <HotelIcon sx={{ color: '#000' }} />
-          </Box>
-          <Box sx={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #e0e0e0',
-            borderRadius: '50%',
-            padding: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 40,
-            height: 40
-          }}>
-            <BathtubIcon sx={{ color: '#000' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <HotelIcon sx={{ fontSize: 20 }} />
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                {room.bedrooms} {room.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <BathtubIcon sx={{ fontSize: 20 }} />
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                {room.bathrooms} {room.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>
-      <Box sx={{ padding: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+      <Box sx={{ padding: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
           {room.name}
         </Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
+        <Typography variant="body2" sx={{ mb: 2, textAlign: 'center' }}>
           {room.description}
         </Typography>
         <Button

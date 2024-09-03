@@ -29,12 +29,14 @@
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
+/* Hide logo on mobile and show on larger screens */
 .logo {
-  height: 150px; 
+  height: 150px;
   width: auto;
   margin-top: 55px;
   transition: opacity 0.5s ease-in-out;
 }
+
 
 .logo.hide {
   opacity: 0; 
@@ -55,7 +57,7 @@
 
 .drawer-content {
   padding: 16px;
-  background-color: #a65a5a;
+  /* background-color: #a65a5a; */
 }
 
 .reservationsbtn {
@@ -104,6 +106,9 @@
 @media (max-width: 600px) {
   .left-side,
   .right-side {
+    display: none;
+  }
+  .logo {
     display: none;
   }
 }

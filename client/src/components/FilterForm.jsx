@@ -64,8 +64,6 @@ const FilterForm = ({
             <MenuItem value="">Any</MenuItem>
             <MenuItem value="1">1</MenuItem>
             <MenuItem value="2">2</MenuItem>
-            <MenuItem value="3">3</MenuItem>
-            <MenuItem value="4">4</MenuItem>
           </Select>
         )}
       </Box>
@@ -105,8 +103,6 @@ const FilterForm = ({
             <MenuItem value="">Any</MenuItem>
             <MenuItem value="1">1</MenuItem>
             <MenuItem value="2">2</MenuItem>
-            <MenuItem value="3">3</MenuItem>
-            <MenuItem value="4">4</MenuItem>
           </Select>
         )}
       </Box>

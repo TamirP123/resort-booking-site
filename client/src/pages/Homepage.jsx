@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Hero from "../components/Hero";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,11 +10,24 @@ import TestimonialsSlider from "../components/TestimonialsSlider";
 import Attractions from "../components/Attractions";
 
 const Homepage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const scrollTo = searchParams.get("scrollTo");
+    if (scrollTo) {
+      const element = document.getElementById(scrollTo);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <Box>
       <Hero />
       <IntroSection />
-      <Box id="features" sx={{ p: 4, backgroundColor: "#f5f5f5" }}>
+      <Box id="rooms" sx={{ p: 4, backgroundColor: "#f5f5f5" }}>
         <Typography
           variant="h6"
           gutterBottom
@@ -29,7 +43,7 @@ const Homepage = () => {
         <Typography
           variant="h4"
           gutterBottom
-          sx={{ textAlign: "center", mb: 5, fontFamily: 'Nunito' }}
+          sx={{ textAlign: "center", mb: 5, fontFamily: "Nunito" }}
         >
           View Our Available Rooms
         </Typography>
@@ -37,7 +51,9 @@ const Homepage = () => {
       </Box>
       <Banner />
       <TestimonialsSlider />
-      <Attractions />
+      <Box id="attractions">
+        <Attractions />
+      </Box>
     </Box>
   );
 };

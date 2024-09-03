@@ -35,3 +35,52 @@ footer {
 body {
   background-color: #edecea;
 }
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  /* Ensure full width and prevent horizontal scrolling */
+  body, #root, .app-container, .content {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Adjust padding and margins for mobile */
+  .content {
+    padding: 0 10px;
+  }
+
+  /* Make images responsive */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Adjust typography for better readability on small screens */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  /* Ensure buttons and form elements are easily tappable */
+  button, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Stack elements vertically on mobile */
+  .flex-container {
+    flex-direction: column;
+  }
+
+  /* Adjust grid layouts for mobile */
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
