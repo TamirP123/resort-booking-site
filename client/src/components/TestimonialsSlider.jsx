@@ -51,7 +51,7 @@ const TestimonialsSlider = () => {
   };
 
   return (
-    <Box sx={{ textAlign: 'center', p: 4, backgroundColor: '#f9f9f9' }}>
+    <Box sx={{ textAlign: 'center', p: 5, backgroundColor: '#f9f9f9' }}>
       <Typography
         variant="h6"
         gutterBottom

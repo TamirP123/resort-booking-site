@@ -6,6 +6,7 @@ import IntroSection from "../components/IntroSection";
 import RoomsGrid from "../components/RoomsGrid";
 import Banner from "../components/Banner";
 import TestimonialsSlider from "../components/TestimonialsSlider";
+import Attractions from "../components/Attractions";
 
 const Homepage = () => {
   return (
@@ -36,6 +37,7 @@ const Homepage = () => {
       </Box>
       <Banner />
       <TestimonialsSlider />
+      <Attractions />
     </Box>
   );
 };
