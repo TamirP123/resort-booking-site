@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -9,14 +9,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Auth from "../utils/auth";
+import ClockNotification from "./ClockNotification";
 import logo from "../assets/logo.png";
 import '../styles/Navbar.css';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [notification, setNotification] = useState({ message: '', type: '' });
   const location = useLocation();
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -33,19 +36,32 @@ const Navbar = () => {
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
+    navigate("/login");
   };
 
-  // Determine if the current route is the Availability page
+  const handleReservationsClick = () => {
+    if (Auth.loggedIn()) {
+      navigate("/reservations");
+    } else {
+      setNotification({ message: "You need to be logged in to view reservations.", type: "error" });
+    }
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ message: '', type: '' });
+  };
+
   const isAvailabilityPage = location.pathname === '/availability';
+  const isReservePage = location.pathname === '/reservations';
 
   return (
     <div>
       <AppBar
         position="fixed"
-        className={`app-bar ${scrolled || isAvailabilityPage ? 'scrolled' : 'transparent'} ${isAvailabilityPage ? 'availability-page' : ''}`}
+        className={`app-bar ${scrolled || isAvailabilityPage || isReservePage ? 'scrolled' : 'transparent'} ${isAvailabilityPage ? 'availability-page' : ''} ${isReservePage ? 'reserve-page' : ''}`}
       >
         <Toolbar
-          className={`toolbar ${scrolled || isAvailabilityPage ? 'scrolled' : 'transparent'}`}
+          className={`toolbar ${scrolled || isAvailabilityPage || isReservePage ? 'scrolled' : 'transparent'}`}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -65,20 +81,19 @@ const Navbar = () => {
             }}
           >
             <Button
-              component={Link}
-              to="/reservations"
+              onClick={handleReservationsClick}
               className="reservationsbtn"
               sx={{
                 fontWeight: 'bold',
-                color: scrolled ? 'black' : 'white',
-                fontFamily: 'Eagle Lake'
+                color: scrolled || isAvailabilityPage || isReservePage ? 'black' : 'white',
+                fontFamily: 'Eagle Lake',
               }}
             >
               Reservations
             </Button>
           </Box>
 
-          {/* Center*/}
+          {/* Center */}
           <Box
             className="logo-container"
             sx={{
@@ -90,7 +105,7 @@ const Navbar = () => {
               transform: 'translateX(-50%)',
             }}
           >
-            {!scrolled && !isAvailabilityPage ? (
+            {!scrolled && !isAvailabilityPage && !isReservePage ? (
               <Link to="/">
                 <img
                   src={logo}
@@ -123,9 +138,9 @@ const Navbar = () => {
               gap: 2,
             }}
           >
-            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage ? 'black' : 'inherit' }} component={Link} to="/rooms">Rooms</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage ? 'black' : 'inherit' }} component={Link} to="/contact">Contact us</MenuItem>
-            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage ? 'black' : 'inherit' }} component={Link} to="/attractions">Attractions</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage || isReservePage ? 'black' : 'inherit' }} component={Link} to="/rooms">Rooms</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage || isReservePage ? 'black' : 'inherit' }} component={Link} to="/contact">Contact us</MenuItem>
+            <MenuItem sx={{ fontFamily: 'Eagle Lake', color: scrolled || isAvailabilityPage || isReservePage ? 'black' : 'inherit' }} component={Link} to="/attractions">Attractions</MenuItem>
             {Auth.loggedIn() ? (
               <Button
                 variant="contained"
@@ -159,7 +174,7 @@ const Navbar = () => {
               aria-label="menu"
               onClick={toggleDrawer(true)}
               sx={{
-                color: scrolled ? 'black' : 'white', // Change color based on scroll
+                color: scrolled || isAvailabilityPage || isReservePage ? 'black' : 'white',
               }}
             >
               <MenuIcon />
@@ -184,6 +199,13 @@ const Navbar = () => {
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* ClockNotification */}
+      <ClockNotification
+        message={notification.message}
+        onClose={handleCloseNotification}
+        type={notification.type}
+      />
     </div>
   );
 };

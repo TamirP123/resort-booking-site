@@ -61,7 +61,7 @@ const Availability = () => {
                 sx={{ 
                     position: 'relative', 
                     height: '75vh', 
-                    backgroundImage: 'url(/assets/images/background-hero.png)',
+                    backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/assets/images/background-hero.png)',
                     backgroundSize: 'cover', 
                     backgroundPosition: 'center', 
                     backgroundAttachment: 'fixed', 
@@ -70,39 +70,91 @@ const Availability = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     flexDirection: 'column',
-                    color: '#fff'
+                    color: '#fff',
+                    overflow: 'hidden'
                 }}
             >
-                <Box sx={{ position: 'absolute', bottom: 0, left: 0, margin: 2 }}>
-                    <Typography variant="h3" sx={{ fontWeight: 'bold', textAlign: 'left', ml: 5, color: 'rgb(193, 163, 98)', fontFamily: 'Eagle Lake' }}>
+                <Box 
+                    sx={{ 
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        backdropFilter: 'blur(5px)'
+                    }}
+                />
+                <Box 
+                    sx={{ 
+                        position: 'relative',
+                        zIndex: 1,
+                        textAlign: 'center',
+                        animation: 'fadeIn 1.5s ease-out'
+                    }}
+                >
+                    <Typography 
+                        variant="h3" 
+                        sx={{ 
+                            fontWeight: 'bold', 
+                            color: 'rgb(193, 163, 98)', 
+                            fontFamily: 'Eagle Lake',
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                            mb: 3
+                        }}
+                    >
                         Available Rooms
                     </Typography>
-                </Box>
-                <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold', mb: 5, fontFamily: 'Eagle Lake', color: 'rgb(193, 163, 98)' }}>
-                    Choose your date to escape.
-                </Typography>
+                    <Typography 
+                        variant="h4" 
+                        sx={{ 
+                            fontWeight: 'bold', 
+                            mb: 5, 
+                            fontFamily: 'Eagle Lake', 
+                            color: '#fff',
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                        }}
+                    >
+                        Choose your date to escape.
+                    </Typography>
 
-                <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center', width: '100%', maxWidth: 600, padding: 2, borderRadius: 2 }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Arrival Date"
-                            value={arrivalDate}
-                            onChange={(newValue) => setArrivalDate(newValue)}
-                            minDate={dayjs()}
-                            renderInput={(params) => (
-                                <TextField {...params} sx={{ minWidth: 200, backgroundColor: '#fff', borderRadius: '4px' }} />
-                            )}
-                        />
-                        <DatePicker
-                            label="Departure Date"
-                            value={departureDate}
-                            onChange={(newValue) => setDepartureDate(newValue)}
-                            minDate={arrivalDate || dayjs()}
-                            renderInput={(params) => (
-                                <TextField {...params} sx={{ minWidth: 200, backgroundColor: '#fff', borderRadius: '4px' }} />
-                            )}
-                        />
-                    </LocalizationProvider>
+                    <Box 
+                        sx={{ 
+                            display: 'flex', 
+                            gap: 2, 
+                            mb: 4, 
+                            justifyContent: 'center', 
+                            width: '100%', 
+                            maxWidth: 600, 
+                            padding: 2, 
+                            borderRadius: 2,
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            backdropFilter: 'blur(10px)',
+                            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                            border: '1px solid rgba(255, 255, 255, 0.3)'
+                        }}
+                    >
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Arrival Date"
+                                value={arrivalDate}
+                                onChange={(newValue) => setArrivalDate(newValue)}
+                                minDate={dayjs()}
+                                renderInput={(params) => (
+                                    <TextField {...params} sx={{ minWidth: 200, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '4px' }} />
+                                )}
+                            />
+                            <DatePicker
+                                label="Departure Date"
+                                value={departureDate}
+                                onChange={(newValue) => setDepartureDate(newValue)}
+                                minDate={arrivalDate || dayjs()}
+                                renderInput={(params) => (
+                                    <TextField {...params} sx={{ minWidth: 200, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '4px' }} />
+                                )}
+                            />
+                        </LocalizationProvider>
+                    </Box>
                 </Box>
             </Box>
 

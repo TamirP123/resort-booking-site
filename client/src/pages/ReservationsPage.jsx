@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box } from '@mui/material';
 import { GET_USER_BOOKINGS } from '../utils/queries';
 import { DELETE_BOOKING } from '../utils/mutations';
 import Auth from "../utils/auth";
@@ -54,46 +54,60 @@ const ReservationsPage = () => {
   };
 
   return (
-    <Container sx={{ mt: 15 }}>
-      <Typography variant="h4" gutterBottom>
-        {Auth.getProfile().authenticatedPerson.username}'s Reservations
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Room</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Check In</TableCell>
-              <TableCell>Check Out</TableCell>
-              <TableCell>Total Cost</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {bookings.map((booking) => (
-              <TableRow key={booking._id}>
-                <TableCell>{booking.room.name}</TableCell>
-                <TableCell style={{ color: 'green' }}>{booking.status}</TableCell>
-                <TableCell>{formatDate(booking.checkInDate)}</TableCell>
-                <TableCell>{formatDate(booking.checkOutDate)}</TableCell>
-                <TableCell style={{ color: 'green' }}>{formatPrice(booking.totalPrice)}</TableCell>
-                <TableCell>
-                  <IconButton color="error" onClick={() => handleDelete(booking._id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <ClockNotification
-        message={notification.message}
-        onClose={handleCloseNotification}
-        type={notification.type}
-      />
-    </Container>
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh',
+      mt: 15,
+      mb: 4 // Add some bottom margin
+    }}>
+      <Container sx={{ flexGrow: 1 }}>
+        <Typography variant="h4" gutterBottom>
+          {Auth.getProfile().authenticatedPerson.username}'s Reservations
+        </Typography>
+        {bookings.length === 0 ? (
+          <Typography variant="h6" sx={{ mt: 4, textAlign: 'center' }}>
+            You currently have no reservations.
+          </Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Room</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Check In</TableCell>
+                  <TableCell>Check Out</TableCell>
+                  <TableCell>Total Cost</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {bookings.map((booking) => (
+                  <TableRow key={booking._id}>
+                    <TableCell>{booking.room.name}</TableCell>
+                    <TableCell style={{ color: 'green' }}>{booking.status}</TableCell>
+                    <TableCell>{formatDate(booking.checkInDate)}</TableCell>
+                    <TableCell>{formatDate(booking.checkOutDate)}</TableCell>
+                    <TableCell style={{ color: 'green' }}>{formatPrice(booking.totalPrice)}</TableCell>
+                    <TableCell>
+                      <IconButton color="error" onClick={() => handleDelete(booking._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+        <ClockNotification
+          message={notification.message}
+          onClose={handleCloseNotification}
+          type={notification.type}
+        />
+      </Container>
+    </Box>
   );
 };
 
