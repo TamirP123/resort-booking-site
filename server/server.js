@@ -3,6 +3,7 @@ dotenv.config({ path: '../../.env' });
 const express = require("express");
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const { MongoClient } = require('mongodb');
 const PORT = process.env.PORT || 3001;
 const app = express();
 const path = require('path');
@@ -31,6 +32,26 @@ const startApolloServer = async () => {
             res.sendFile(path.join(__dirname, '../client/dist/index.html'))
         })
     }
+
+    const uri = process.env.MONGDB_URI;
+    const client = new MongoClient(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      ssl: true,
+      tlsAllowInvalidCertificates: true // For testing only, remove in production
+    });
+
+    async function connectToDatabase() {
+      try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+      } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+        process.exit(1);
+      }
+    }
+
+    connectToDatabase();
 
     db.once('open', () => {
         app.listen(PORT, () => {
