@@ -12,7 +12,7 @@ const { typeDefs, resolvers } = require('./schema');
 const db = require('./config/connection');
 const { authMiddleware } = require('./utils/auth');
 
-console.log('Stripe Secret Key:', process.env.secret); // Debugging line
+console.log('Stripe Secret Key', process.env.secret); // Debugging line
 
 const server = new ApolloServer({ 
     typeDefs, 
