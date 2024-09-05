@@ -7,7 +7,7 @@ db.on('error', console.error.bind(console, 'Database connection error'));
 
 db.disconnect = async function() {
     await mongoose.disconnect();
-    console.log('Disconnected to the database');
+    console.log('Disconnected from the database');
 };
 
 module.exports = db;
