@@ -42,6 +42,8 @@ https://github.com/TamirP123/resort-booking-site
 
 #### Photo of application
 ![Homepage](https://github.com/user-attachments/assets/4a71ccdb-c54e-4ed1-a8e6-72c371dcf39f)
+![Rooms](https://github.com/user-attachments/assets/fc2786f5-8c58-495b-8968-34a9d87ccd6e)
+![Booking Room](https://github.com/user-attachments/assets/c7a65e96-2b61-4ca3-8a03-146818e95b29)
 
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
