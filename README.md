@@ -41,7 +41,7 @@ https://harmonia-oasis-ceca56dc2dde.herokuapp.com/
 https://github.com/TamirP123/resort-booking-site
 
 #### Photo of application
-![Project Image](link)
+![Homepage](https://github.com/user-attachments/assets/4a71ccdb-c54e-4ed1-a8e6-72c371dcf39f)
 
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
